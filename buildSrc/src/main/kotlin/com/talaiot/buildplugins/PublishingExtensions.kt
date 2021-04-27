@@ -5,7 +5,6 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.*
 import java.net.URI
 
@@ -29,7 +28,7 @@ fun Project.setUpPublishing(
         repositories {
             maven {
                 name = "Snapshots"
-                url = URI("https://oss.jfrog.org/artifactory/oss-snapshot-local")
+                url = URI("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
                 credentials {
                     username = System.getenv("USERNAME_SNAPSHOT")
@@ -52,6 +51,10 @@ fun Project.setUpPublishing(
                     }
                 }
                 pom {
+                    scm {
+                        connection.set("scm:git:git://github.com/cdsap/Talaiot/")
+                        url.set("https://github.com/cdsap/Talaiot/")
+                    }
                     name.set("Talaiot")
                     url.set("https://github.com/cdsap/Talaiot/")
                     description.set(

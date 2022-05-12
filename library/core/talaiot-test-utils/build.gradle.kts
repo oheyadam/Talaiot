@@ -9,6 +9,7 @@ talaiotLib {
 }
 
 dependencies {
+    implementation("io.kotest:kotest-runner-junit5-jvm:5.3.0")
     implementation(project(":library:core:talaiot-logger"))
     implementation("org.testcontainers:testcontainers:1.11.3")
     api("org.testcontainers:influxdb:1.15.2")

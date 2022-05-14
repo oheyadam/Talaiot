@@ -5,8 +5,8 @@ import io.github.cdsap.talaiot.entities.Environment
 import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.kotest.matchers.shouldBe
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 
 class CacheHitMetricTest : BehaviorSpec({
     given("CacheHitMetrics") {

@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.entities
 
-import io.kotest.matchers.shouldBe
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 
 class ExecutionReportTest : BehaviorSpec({
     given("An execution report and a list of tasks") {

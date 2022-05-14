@@ -22,14 +22,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
     override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         runBlocking {
-        container.start()
+            container.start()
         }
     }
 
     override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         runBlocking {
-        container.stop()
+            container.stop()
         }
     }
 

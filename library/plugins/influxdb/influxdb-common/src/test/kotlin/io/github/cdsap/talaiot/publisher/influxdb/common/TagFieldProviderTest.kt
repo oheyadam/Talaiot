@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class TagFieldProviderTest : BehaviorSpec() {
 

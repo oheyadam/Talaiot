@@ -9,9 +9,10 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.Spec
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.common.runBlocking
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.ResponseException
@@ -22,14 +23,18 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
 
     private val container = KElasticSearchContainer()
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
-        container.start()
+        runBlocking {
+            container.start()
+        }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
-        container.stop()
+        runBlocking {
+            container.stop()
+        }
     }
 
     init {

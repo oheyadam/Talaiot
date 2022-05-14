@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.configuration
 
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 

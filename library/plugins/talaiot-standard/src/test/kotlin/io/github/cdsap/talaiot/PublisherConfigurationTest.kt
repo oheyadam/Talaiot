@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class PublisherConfigurationTest : BehaviorSpec({
     given("Any of the Publisher configuration") {

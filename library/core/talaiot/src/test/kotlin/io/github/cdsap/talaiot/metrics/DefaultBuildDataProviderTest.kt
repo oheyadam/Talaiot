@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.metrics
 
 import io.github.cdsap.talaiot.report.ExecutionReportProvider
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.core.spec.style.BehaviorSpec
 import junit.framework.Assert.assertTrue
 
 class DefaultBuildMetricsProviderTest : BehaviorSpec({

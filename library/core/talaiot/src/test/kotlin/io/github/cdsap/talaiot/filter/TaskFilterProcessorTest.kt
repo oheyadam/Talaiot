@@ -5,7 +5,7 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class TaskFilterProcessorTest : BehaviorSpec({
     given("a TaskFilterProcessor") {

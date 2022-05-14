@@ -3,8 +3,9 @@ package io.github.cdsap.talaiot.plugin.elasticsearch
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.common.runBlocking
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.RestClient
@@ -15,14 +16,18 @@ import org.testcontainers.elasticsearch.KElasticSearchContainer
 class ElasticsearchPluginTest : BehaviorSpec() {
     private val container = KElasticSearchContainer()
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
-        container.start()
+        runBlocking {
+            container.start()
+        }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
-        container.stop()
+        runBlocking {
+            container.stop()
+        }
     }
 
     init {

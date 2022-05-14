@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.util
 
 import io.github.cdsap.talaiot.extensions.toBytes
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class UtilTest : BehaviorSpec({
 

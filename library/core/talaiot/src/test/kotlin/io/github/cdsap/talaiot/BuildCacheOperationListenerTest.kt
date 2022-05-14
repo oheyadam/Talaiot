@@ -3,8 +3,8 @@ package io.github.cdsap.talaiot
 import io.github.cdsap.talaiot.entities.CacheInfo
 import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import org.gradle.api.internal.tasks.execution.ExecuteTaskBuildOperationType
 import org.gradle.caching.internal.controller.operations.LoadOperationHitResult
 import org.gradle.caching.internal.operations.BuildCacheRemoteLoadBuildOperationType

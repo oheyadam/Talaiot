@@ -26,8 +26,8 @@ import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
 

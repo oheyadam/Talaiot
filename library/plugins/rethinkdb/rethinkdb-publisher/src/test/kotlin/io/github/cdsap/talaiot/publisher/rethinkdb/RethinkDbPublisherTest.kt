@@ -10,11 +10,10 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.Description
-import io.kotlintest.Spec
-import io.kotlintest.inspectors.forAtLeastOne
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.inspectors.forAtLeastOne
 import junit.framework.Assert.assertTrue
 import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
@@ -24,13 +23,13 @@ class RethinkDbPublisherTest : BehaviorSpec() {
     val container = KRethinkDbContainer()
     val r = RethinkDB.r
 
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
+    override suspend fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override suspend fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
         container.stop()
     }
 

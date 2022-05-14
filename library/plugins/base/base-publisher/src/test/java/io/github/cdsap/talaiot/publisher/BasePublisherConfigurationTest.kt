@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class BasePublisherConfigurationTest : BehaviorSpec({
     given("Any of the Publisher configuration") {

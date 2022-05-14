@@ -3,30 +3,31 @@ package io.github.cdsap.talaiot
 import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.forAll
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.inspectors.forAll
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
-class DefaultConfigurationSpec : StringSpec({
+class E2EIntegrationSpec : StringSpec({
     "given default config" {
-        forAll(
-            listOf(
-                "7.2",
-                "7.1.1",
-                "7.1",
-                "7.0.2",
-                "7.0",
-                "6.8.1",
-                "6.7.1",
-                "6.5.1",
-                "6.4.1",
-                "6.2.1",
-                "6.0.1"
-            )
-        ) { version: String ->
+
+        listOf(
+            "7.2",
+            "7.1.1",
+            "7.1",
+            "7.0.2",
+            "7.0",
+            "6.8.1",
+            "6.7.1",
+            "6.5.1",
+            "6.4.1",
+            "6.2.1",
+            "6.0.1"
+
+        ).forAll { version: String ->
             val testProjectDir = TemporaryFolder()
 
             testProjectDir.create()

@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.resources.ResourcesGexf
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 import java.lang.StringBuilder
 
 class GexfPublisherTest : BehaviorSpec({

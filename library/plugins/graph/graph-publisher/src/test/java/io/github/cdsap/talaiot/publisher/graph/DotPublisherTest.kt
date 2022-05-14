@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class DotPublisherTest : BehaviorSpec({
     given("Dot Publisher instance") {

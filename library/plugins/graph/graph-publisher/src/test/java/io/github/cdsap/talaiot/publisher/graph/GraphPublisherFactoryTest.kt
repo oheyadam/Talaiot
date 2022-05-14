@@ -5,7 +5,7 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class GraphPublisherFactoryTest : BehaviorSpec({
     given("GraphPublisherFactory Implementation") {

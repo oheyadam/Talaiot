@@ -7,20 +7,20 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.testcontainers.influxdb2.KInfluxDb2Container
 
 class InfluxDb2PublisherTest : BehaviorSpec() {
 
     val container = KInfluxDb2Container()
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         container.stop()
     }

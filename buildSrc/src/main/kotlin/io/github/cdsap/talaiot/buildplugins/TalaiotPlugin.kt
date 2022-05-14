@@ -33,7 +33,11 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.setUpJacoco()
         target.setUpJunitPlatform()
-
+        target.tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
         target.afterEvaluate {
             val extension = target.extensions.getByType<TalaiotPluginConfiguration>()
             setProjectVersion(extension.version)

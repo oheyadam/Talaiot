@@ -9,7 +9,7 @@ import io.github.cdsap.talaiot.publisher.graph.resources.ResourcesHtml
 import io.github.cdsap.talaiot.publisher.graph.resources.ResourcesHtml.LEGEND_HEADER
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 import java.lang.StringBuilder
 
 class HtmlPublisherTest : BehaviorSpec({

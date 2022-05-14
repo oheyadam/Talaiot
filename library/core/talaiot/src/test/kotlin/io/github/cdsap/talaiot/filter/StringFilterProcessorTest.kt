@@ -1,9 +1,9 @@
 package io.github.cdsap.talaiot.filter
 
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.kotlintest.matchers.boolean.shouldBeFalse
-import io.kotlintest.matchers.boolean.shouldBeTrue
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 
 class StringFilterProcessorTest : BehaviorSpec({
     given("A StringFilter configuration") {

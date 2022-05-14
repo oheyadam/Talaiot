@@ -10,7 +10,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
 import java.util.concurrent.Executor

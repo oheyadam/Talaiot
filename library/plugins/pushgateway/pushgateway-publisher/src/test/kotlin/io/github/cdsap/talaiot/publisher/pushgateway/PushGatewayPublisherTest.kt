@@ -10,22 +10,27 @@ import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.utils.TestExecutor
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.common.runBlocking
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.testcontainers.pushgateway.KPushGatewayContainer
 import java.net.URL
 
 class PushGatewayPublisherTest : BehaviorSpec() {
 
     val container = KPushGatewayContainer()
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
+        runBlocking {
         container.start()
+        }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
+        runBlocking {
         container.stop()
+        }
     }
 
     val pushGateway by lazy {

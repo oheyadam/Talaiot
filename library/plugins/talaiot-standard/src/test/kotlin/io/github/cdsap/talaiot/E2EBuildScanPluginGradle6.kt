@@ -2,8 +2,8 @@ package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
@@ -13,12 +13,12 @@ class E2EBuildScanPluginGradle6 : BehaviorSpec() {
 
     val container: KInfluxDBContainer = KInfluxDBContainer().withAuthEnabled(false)
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         container.stop()
     }

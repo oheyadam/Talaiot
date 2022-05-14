@@ -14,9 +14,9 @@ import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import io.github.cdsap.talaiot.utils.TestExecutor
-import io.kotlintest.Description
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.common.runBlocking
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
 import org.testcontainers.pushgateway.KPushGatewayContainer
@@ -32,18 +32,22 @@ class HybridPublisherTest : BehaviorSpec() {
 
     private val r = RethinkDB.r
 
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
-        container.start()
-        containerRethink.start()
-        containerPushGateway.start()
+    override suspend fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
+        runBlocking {
+            container.start()
+            containerRethink.start()
+            containerPushGateway.start()
+        }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
-        container.stop()
-        containerRethink.stop()
-        containerPushGateway.stop()
+        runBlocking {
+            container.stop()
+            containerRethink.stop()
+            containerPushGateway.stop()
+        }
     }
 
     val influxDB by lazy {

@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import junit.framework.Assert.assertTrue
 import org.gradle.testkit.runner.GradleRunner
 import org.influxdb.dto.Query
@@ -21,13 +21,13 @@ class BuildCacheRemoteLoadBuildOperationTypeTest : BehaviorSpec() {
         containerInfluxDb.newInfluxDB
     }
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         containerRedis.start()
         containerInfluxDb.start()
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         containerRedis.stop()
         containerInfluxDb.stop()

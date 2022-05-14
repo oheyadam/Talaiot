@@ -3,8 +3,9 @@ package io.github.cdsap.talaiot.plugin.rethinkdb
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.common.runBlocking
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import junit.framework.Assert
 import org.gradle.testkit.runner.GradleRunner
 import org.testcontainers.rethinkdb.KRethinkDbContainer
@@ -15,14 +16,18 @@ class RethinkdbPluginTest : BehaviorSpec() {
     val container = KRethinkDbContainer()
     val r = RethinkDB.r
 
-    override fun beforeSpec(spec: Spec) {
+    override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
-        container.start()
+        runBlocking {
+            container.start()
+        }
     }
 
-    override fun afterSpec(spec: Spec) {
+    override suspend fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
-        container.stop()
+        runBlocking {
+            container.stop()
+        }
     }
 
     init {

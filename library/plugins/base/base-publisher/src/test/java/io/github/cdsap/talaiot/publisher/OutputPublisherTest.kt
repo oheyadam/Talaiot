@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.LogTracker
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class OutputPublisherTest : BehaviorSpec({
     given("OutputPublisher configuration") {

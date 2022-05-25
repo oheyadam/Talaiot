@@ -1,128 +1,105 @@
 package io.github.cdsap.talaiot
 
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.publisher.TalaiotPublisher
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
+import java.util.concurrent.Executors
 
-abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, AutoCloseable,
+abstract class TalaiotBuildService :
+    BuildService<TalaiotBuildService.Params>,
+    AutoCloseable,
     OperationCompletionListener {
 
+    var start = 0L
+    var configurationTime = 0L
+    var configurationIsSet = false
+
     interface Params : BuildServiceParameters {
-        val target: Property<String>
+        val publisher: Property<TalaiotPublisher>
+        val startParameters: ListProperty<String>
     }
 
-//    private val talaiotTracker = TalaiotTracker()
-//    private var configurationEnd: Long? = null
-//    private var start: Long? = null
-//    val taskLengthList = mutableListOf<TaskLength>()
+    private val taskLengthList = mutableListOf<TaskLength>()
 
     init {
-        println("starte")
-    //    configurationEnd = System.currentTimeMillis()
-     //   start = System.currentTimeMillis()
-      //  println(configurationEnd)
+        start = System.currentTimeMillis()
     }
 
     override fun close() {
-        println("out of service")
-//        parameters.target.get().publish(
-//            taskLengthList,
-//            start!!,
-//            start!! * 2,
-//            System.currentTimeMillis(),
-//            true
-//        )
-//        parameters.target.get().publish(
-//            tas
-//            taskLengthList: MutableList<TaskLength>,
-//        start: Long,
-//        configuraionMs: Long?,
-//        end: Long,
-//        success: Boolean
-//            t
-//        )
-
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            taskLengthList.forEach {
+                println(it.taskName)
+            }
+            parameters.publisher.get().publish(
+                taskLengthList = taskLengthList,
+                start = start,
+                configuraionMs = configurationTime,
+                end = System.currentTimeMillis(),
+                success = taskLengthList.none { it.state == TaskMessageState.FAILED }
+            )
+        }
     }
 
+    override fun onFinish(event: FinishEvent?) {
+        if (!configurationIsSet) {
+            configurationTime = System.currentTimeMillis() - start
+            configurationIsSet = true
+        }
+        val duration = event?.result?.endTime!! - event.result?.startTime!!
+        val end = event.result?.endTime!!
+        val start = event.result?.startTime!!
+        val taskPath = event.descriptor?.name.toString()
+        val task = taskPath.split(":").last()
+        val state = event.displayName.split(" ")[2]
 
-    override fun onFinish(p0: FinishEvent?) {
-       println("end")
+        taskLengthList.add(
+            taskLength(
+                ms = duration,
+                task = task,
+                path = taskPath,
+                state = when (state) {
+                    "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
+                    "FROM-CACHE" -> TaskMessageState.FROM_CACHE
+                    "NO-SOURCE" -> TaskMessageState.NO_SOURCE
+                    "failed" -> TaskMessageState.FAILED
+                    else -> TaskMessageState.EXECUTED
+                },
+                rootNode = parameters.startParameters.get().contains(task.split(":").last()),
+                startMs = start,
+                stopMs = end
+            )
+        )
     }
+}
 
-//        println("onfinish")
-//        val duration = p0?.result?.endTime!! - p0?.result?.startTime!!
-//        val end = p0?.result?.endTime!!
-//        val start = p0?.result?.startTime!!
-//        val task = p0?.descriptor?.name.toString()
-//        val state = p0?.displayName.split(" ")[2]
-//
-//        //     println(p0?.result?.startTime.toString())
-//        //     println(p0?.result?.endTime.toString())
-//        //      println(p0?.descriptor?.name.toString())
-//        //     println(p0?.displayName)
-//        //     println(p0?.result.toString())
-//        //    println(p0?.descriptor?.displayName.toString())
-//        //     println(p0?.descriptor?.parent.toString())
-//        //     println(p0?.displayName.toString())
-//        //     println(p0?.eventTime)
-//        //     println(p0.toString())
-//
-//        taskLengthList.add(
-//            taskLength(
-//                ms = duration,
-//                task = task,
-//                state = when (state) {
-//                    "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
-//                    "FROM-CACHE" -> TaskMessageState.FROM_CACHE
-//                    "NO-SOURCE" -> TaskMessageState.NO_SOURCE
-//                    else -> TaskMessageState.EXECUTED
-//                },
-//                rootNode = false,
-//                startMs = start,
-//                stopMs = end,
-//                workerId = "test worker"
-//            )
-//        )
+private fun taskLength(
+    ms: Long,
+    task: String,
+    path: String,
+    state: TaskMessageState,
+    rootNode: Boolean,
+    startMs: Long,
+    stopMs: Long
+): TaskLength = TaskLength(
+    ms = ms,
+    taskName = task,
+    taskPath = path,
+    state = state,
+    rootNode = rootNode,
+    module = getModule(task),
+    startMs = startMs,
+    stopMs = stopMs
+)
 
-    }
-
-//    private fun taskLength(
-//        ms: Long,
-//        task: String,
-//        state: TaskMessageState,
-//        rootNode: Boolean,
-//        startMs: Long,
-//        stopMs: Long,
-//        workerId: String
-//    ): TaskLength =
-//        TaskLength(
-//            ms = ms,
-//            taskName = task,
-//            taskPath = task,
-//            state = state,
-//            rootNode = rootNode,
-//            module = getModule(task),
-//            taskDependencies = emptyList(),
-//            workerId = workerId,
-//            startMs = startMs,
-//            stopMs = stopMs
-//        )
-//
-//    private fun taskDependencies(task: Task): List<String> =
-//        try {
-//            task.taskDependencies.getDependencies(task).map { it.path }
-//        } catch (e: TaskDependencyResolveException) {
-//            emptyList()
-//        }
-//
-//    private fun getModule(path: String): String {
-//        val module = path.split(":")
-//
-//        return if (module.size > 2) module.toList()
-//            .dropLast(1)
-//            .joinToString(separator = ":")
-//        else "no_module"
-//    }
-
+private fun getModule(path: String): String {
+    val module = path.split(":")
+    return if (module.size > 2) module.toList().dropLast(1).joinToString(separator = ":")
+    else "no_module"
+}

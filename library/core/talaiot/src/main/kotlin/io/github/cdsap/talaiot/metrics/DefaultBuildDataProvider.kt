@@ -19,7 +19,6 @@ class DefaultBuildMetricsProvider(
             requestedTasks?.let { map[BuildMetrics.RequestedTasks.toKey()] = it }
             cacheRatio?.let { map[BuildMetrics.CacheRatio.toKey()] = it.toDouble() }
             beginMs?.let { map[BuildMetrics.Start.toKey()] = it.toDouble() }
-            scanLink?.let { map[BuildMetrics.GradleScanLink.toKey()] = it }
             rootProject?.let { map[BuildMetrics.RootProject.toKey()] = it }
             with(environment) {
                 osVersion?.let { map[BuildMetrics.OsVersion.toKey()] = it }
@@ -38,13 +37,7 @@ class DefaultBuildMetricsProvider(
                 gitBranch?.let { map[BuildMetrics.GitBranch.toKey()] = it }
                 gitUser?.let { map[BuildMetrics.GitUser.toKey()] = it }
                 hostname?.let { map[BuildMetrics.Hostname.toKey()] = it }
-                osManufacturer?.let { map[BuildMetrics.OsManufacturer.toKey()] = it }
-                publicIp?.let { map[BuildMetrics.PublicIp.toKey()] = it }
                 cacheUrl?.let { map[BuildMetrics.CacheUrl.toKey()] = it }
-                localCacheHit?.let { map[BuildMetrics.LocalCacheHit.toKey()] = it.toString() }
-                localCacheMiss?.let { map[BuildMetrics.LocalCacheMiss.toKey()] = it.toString() }
-                remoteCacheHit?.let { map[BuildMetrics.RemoteCacheHit.toKey()] = it.toString() }
-                remoteCacheMiss?.let { map[BuildMetrics.RemoteCacheMiss.toKey()] = it.toString() }
                 cacheStore?.let { map[BuildMetrics.CacheStore.toKey()] = it }
                 switches.buildCache?.let { map[BuildMetrics.SwitchCache.toKey()] = it }
                 switches.buildScan?.let { map[BuildMetrics.SwitchScan.toKey()] = it }

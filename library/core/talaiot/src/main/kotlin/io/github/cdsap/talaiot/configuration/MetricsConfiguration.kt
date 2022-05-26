@@ -2,13 +2,11 @@ package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildIdMetric
-// import io.github.cdsap.talaiot.metrics.CacheHitMetric
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
-import io.github.cdsap.talaiot.metrics.GradleScanLinkMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigurationCacheMetric
@@ -52,7 +50,6 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
- *  [GradleScanLinkMetric]
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
@@ -81,11 +78,8 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchConfigurationCacheMetric]
  *
  * [environmentMetrics] includes:
- *  [OsManufacturerMetric]
  *  [HostnameMetric]
- *  [PublicIpMetric]
  *  [DefaultCharsetMetric]
- *  [CacheHitMetric]
  *
  *  If you want to define custom metrics:
  *
@@ -125,13 +119,6 @@ class MetricsConfiguration {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
-            add(GradleScanLinkMetric())
-        }
-    }
-
-    private fun addGradleScanMetrics() {
-        with(metrics) {
-            add(GradleScanLinkMetric())
         }
     }
 

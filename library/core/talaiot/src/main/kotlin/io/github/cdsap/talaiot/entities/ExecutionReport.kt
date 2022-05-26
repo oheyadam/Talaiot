@@ -18,8 +18,6 @@ package io.github.cdsap.talaiot.entities
  * @property rootProject name of the root gradle project
  * @property success true if build finished successfully, false otherwise
  *
- * @property scanLink link to the generated gradle scan
- *
  * @property environment information about the environment of gradle execution
  * @property customProperties custom properties defined in [io.github.cdsap.talaiot.configuration.MetricsConfiguration]
  */
@@ -36,7 +34,6 @@ data class ExecutionReport(
     var rootProject: String? = null,
     var requestedTasks: String? = null,
     var success: Boolean = false,
-    var scanLink: String? = null,
     var buildInvocationId: String? = null
 ) : java.io.Serializable {
 
@@ -60,22 +57,16 @@ data class Environment(
     var javaMaxPermSize: String? = null,
     var locale: String? = null,
     var username: String? = null,
-    var publicIp: String? = null,
     var defaultChartset: String? = null,
     var ideVersion: String? = null,
     var gradleVersion: String? = null,
     var cacheUrl: String? = null,
     var cacheStore: String? = null,
-    var localCacheHit: Int? = null,
-    var localCacheMiss: Int? = null,
-    var remoteCacheHit: Int? = null,
-    var remoteCacheMiss: Int? = null,
     var plugins: List<Plugin> = emptyList(),
     var gitBranch: String? = null,
     var gitUser: String? = null,
     var switches: Switches = Switches(),
-    var hostname: String? = null,
-    var osManufacturer: String? = null
+    var hostname: String? = null
 ) : java.io.Serializable
 
 data class Switches(

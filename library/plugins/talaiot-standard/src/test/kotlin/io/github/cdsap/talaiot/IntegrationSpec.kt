@@ -22,10 +22,7 @@ class DefaultConfigurationSpec : StringSpec({
                 "7.0",
                 "6.8.1",
                 "6.7.1",
-                "6.5.1",
-                "6.4.1",
-                "6.2.1",
-                "6.0.1"
+                "6.5.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
@@ -56,21 +53,19 @@ class DefaultConfigurationSpec : StringSpec({
                 .withGradleVersion(version)
                 .build()
 
+            Thread.sleep(2000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
+            println("versssssion")
+            println(result.output)
             testProjectDir.delete()
             report.environment.gradleVersion shouldBe version
-            println("1")
             report.beginMs shouldNotBe null
-            println("12")
             report.endMs shouldNotBe null
-            println("13")
             report.durationMs shouldNotBe null
-            println("14")
 
             report.configurationDurationMs shouldNotBe null
-            println("15")
 
             val tasks = report.tasks!!
             tasks.size shouldBe 5

@@ -18,9 +18,9 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
     fun taskLabelValues(task: TaskLength): List<String> {
         val labels = mutableListOf(
             task.module,
-            task.critical.toString(),
-            task.isLocalCacheHit.toString(),
-            task.isRemoteCacheHit.toString(),
+            //task.critical.toString(),
+            //task.isLocalCacheHit.toString(),
+            //task.isRemoteCacheHit.toString(),
             task.state.name
         )
         labels.addAll(customTaskLabelValues)

@@ -13,6 +13,7 @@ import org.influxdb.InfluxDBIOException
 import org.influxdb.dto.BatchPoints
 import org.influxdb.dto.Point
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 const val TIMEOUT_SEC = 10L
@@ -28,16 +29,13 @@ class InfluxDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-) : Publisher {
+    private val logTracker: LogTracker
+) : Publisher, java.io.Serializable {
 
     private val TAG = "InfluxDbPublisher"
 
     override fun publish(report: ExecutionReport) {
+        //  val executor = Executors.newSingleThreadExecutor()
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
             influxDbPublisherConfiguration.taskMetricName.isEmpty() ||
@@ -45,18 +43,19 @@ class InfluxDbPublisher(
         ) {
             logTracker.error(
                 "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
-                    "influxDbPublisher {\n" +
-                    "            dbName = \"tracking\"\n" +
-                    "            url = \"http://localhost:8086\"\n" +
-                    "            buildMetricName = \"build\"\n" +
-                    "            taskMetricName = \"task\"\n" +
-                    "}\n" +
-                    "Please update your configuration"
+                        "influxDbPublisher {\n" +
+                        "            dbName = \"tracking\"\n" +
+                        "            url = \"http://localhost:8086\"\n" +
+                        "            buildMetricName = \"build\"\n" +
+                        "            taskMetricName = \"task\"\n" +
+                        "}\n" +
+                        "Please update your configuration"
             )
             return
         }
 
         try {
+            val executor = Executors.newSingleThreadExecutor()
             val pointsBuilder = BatchPoints.builder()
                 // See https://github.com/influxdata/influxdb-java/issues/373
                 .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
@@ -94,6 +93,7 @@ class InfluxDbPublisher(
                     logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
                 }
             }
+
         } catch (e: Exception) {
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {

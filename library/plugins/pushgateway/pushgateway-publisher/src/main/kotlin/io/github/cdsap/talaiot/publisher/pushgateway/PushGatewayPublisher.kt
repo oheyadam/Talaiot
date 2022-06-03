@@ -24,7 +24,7 @@ class PushGatewayPublisher(
      */
     private val executor: Executor
 
-) : Publisher {
+) : Publisher, java.io.Serializable {
     private val TAG = "PushGatewayPublisher"
 
     override fun publish(report: ExecutionReport) {

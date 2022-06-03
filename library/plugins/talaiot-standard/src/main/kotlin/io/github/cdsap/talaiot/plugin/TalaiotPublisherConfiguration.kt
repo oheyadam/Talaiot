@@ -1,10 +1,10 @@
 package io.github.cdsap.talaiot.plugin
 
 import groovy.lang.Closure
-import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
+//import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
+//import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
@@ -17,10 +17,10 @@ class TalaiotPublisherConfiguration(
     internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
     internal var hybridPublisher: HybridPublisherConfiguration? = null
     internal var influxDbPublisher: InfluxDbPublisherConfiguration? = null
-    internal var outputPublisher: OutputPublisherConfiguration? = null
+   // internal var outputPublisher: OutputPublisherConfiguration? = null
     internal var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
     internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
-    internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
+    //internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
 
     internal var customPublishers: MutableSet<Publisher> = mutableSetOf()
 
@@ -99,20 +99,20 @@ class TalaiotPublisherConfiguration(
      *
      * @param configuration Configuration block for the [OutputPublisherConfiguration]
      */
-    fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
-        outputPublisher = OutputPublisherConfiguration().also(configuration)
-    }
+//    fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
+//        outputPublisher = OutputPublisherConfiguration().also(configuration)
+//    }
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [OutputPublisher]
      *
      * @param closure closure for the [OutputPublisherConfiguration]
      */
-    fun outputPublisher(closure: Closure<*>) {
-        outputPublisher = OutputPublisherConfiguration()
-        closure.delegate = outputPublisher
-        closure.call()
-    }
+//    fun outputPublisher(closure: Closure<*>) {
+//        outputPublisher = OutputPublisherConfiguration()
+//        closure.delegate = outputPublisher
+//        closure.call()
+//    }
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [PushGatewayPublisher]
@@ -158,20 +158,20 @@ class TalaiotPublisherConfiguration(
      *
      * @param configuration Configuration block for the [TaskDependencyGraphConfiguration]
      */
-    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
-    }
+//    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
+//        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
+//    }
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [TaskDependencyGraphPublisher]
      *
      * @param closure closure for the [TaskDependencyGraphConfiguration]
      */
-    fun taskDependencyGraphPublisher(closure: Closure<*>) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project)
-        closure.delegate = taskDependencyGraphPublisher
-        closure.call()
-    }
+//    fun taskDependencyGraphPublisher(closure: Closure<*>) {
+//        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project)
+//        closure.delegate = taskDependencyGraphPublisher
+//        closure.call()
+//    }
 
     /**
      * Adds the given custom publishers into the publisher list.

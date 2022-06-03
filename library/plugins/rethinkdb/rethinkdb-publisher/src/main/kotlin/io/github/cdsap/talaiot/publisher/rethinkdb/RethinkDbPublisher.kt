@@ -9,6 +9,7 @@ import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import java.net.URL
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 /**
  * Publisher using RethinkDb format to send the metrics
@@ -21,12 +22,8 @@ class RethinkDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-) : Publisher {
+    private val logTracker: LogTracker
+) : Publisher, java.io.Serializable {
 
     private val TAG = "RethinkDbPublisher"
 
@@ -40,16 +37,16 @@ class RethinkDbPublisher(
         ) {
             error(
                 "RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName: \n" +
-                    "rethinkDbPublisher {\n" +
-                    "            dbName = \"tracking\"\n" +
-                    "            url = \"http://localhost:8086\"\n" +
-                    "            buildTableName = \"build\"\n" +
-                    "            taskTableName = \"task\"\n" +
-                    "}\n" +
-                    "Please update your configuration"
+                        "rethinkDbPublisher {\n" +
+                        "            dbName = \"tracking\"\n" +
+                        "            url = \"http://localhost:8086\"\n" +
+                        "            buildTableName = \"build\"\n" +
+                        "            taskTableName = \"task\"\n" +
+                        "}\n" +
+                        "Please update your configuration"
             )
         }
-
+        val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             logTracker.log(TAG, "================")
             logTracker.log(TAG, "RethinkDbPublisher")

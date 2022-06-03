@@ -13,7 +13,7 @@ import org.elasticsearch.client.RestHighLevelClient
 import java.net.URL
 import java.util.concurrent.Executor
 
-class ElasticSearchPublisher(
+class    ElasticSearchPublisher(
     /**
      * General configuration for the publisher
      */
@@ -26,7 +26,7 @@ class ElasticSearchPublisher(
      * Executor to schedule a task in Background
      */
     private val executor: Executor
-) : Publisher {
+) : Publisher, java.io.Serializable {
 
     private val TAG = "ElasticSearchPublisher"
 

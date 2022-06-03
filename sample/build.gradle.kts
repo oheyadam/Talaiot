@@ -19,15 +19,15 @@ configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
     publishers {
         // Publishers that don't require a configuration can be enabled or disabled with a flag.
         // By default all publishers are disabled.
-        timelinePublisher = true
-        jsonPublisher = false
+//        timelinePublisher = true
+        jsonPublisher = true
 
         // Talaiot provides a few pre-defined publishers.
-        // Declaring a configuration for any of those publishers will enable them.
-        taskDependencyGraphPublisher {
-            html = true
-            gexf = true
-        }
+//        // Declaring a configuration for any of those publishers will enable them.
+//        taskDependencyGraphPublisher {
+//            html = true
+//            gexf = true
+//        }
 
         influxDbPublisher {
             dbName = "tracking"
@@ -38,8 +38,8 @@ configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
 
         // You can also define your own custom publishers:
         customPublishers(
-            CustomPublisher(),
-            HelloPublisher()
+     //       CustomPublisher(),
+        //    HelloPublisher()
         )
     }
 
@@ -68,21 +68,13 @@ configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
     }
 }
 
-class CustomPublisher : io.github.cdsap.talaiot.publisher.Publisher {
+//}
 
-    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
-        println("[CustomPublisher] : Number of tasks = ${report.tasks?.size}")
-        println("[CustomPublisher] : Kotlin = ${report.customProperties.buildProperties["kotlin"]}")
-        println("[CustomPublisher] : Java = ${report.customProperties.buildProperties["java"]}")
-        println("[CustomPublisher] : PID = ${report.customProperties.taskProperties["pid"]}")
-    }
-}
-
-class HelloPublisher : io.github.cdsap.talaiot.publisher.Publisher {
-    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
-        println("[HelloPublisher] : HelloMetric = ${report.customProperties.buildProperties["hello"]}")
-    }
-}
+//class HelloPublisher : io.github.cdsap.talaiot.publisher.Publisher, java.io.Serializable {
+//    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
+//        println("[HelloPublisher] : HelloMetric = ${report.customProperties.buildProperties["hello"]}")
+//    }
+//}
 
 class HelloMetric : io.github.cdsap.talaiot.metrics.SimpleMetric<String>(
     provider = { "Hello!" },

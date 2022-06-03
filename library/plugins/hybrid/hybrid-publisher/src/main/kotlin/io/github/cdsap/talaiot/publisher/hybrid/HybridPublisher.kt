@@ -21,7 +21,7 @@ class HybridPublisher(
      * Executor to schedule a task in Background
      */
     private val executor: Executor
-) : Publisher {
+) : Publisher, java.io.Serializable {
 
     private val TAG = "HybridPublisher"
 
@@ -58,8 +58,7 @@ class HybridPublisher(
             is InfluxDbPublisherConfiguration -> {
                 InfluxDbPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
             is PushGatewayPublisherConfiguration -> {
@@ -81,8 +80,7 @@ class HybridPublisher(
             is RethinkDbPublisherConfiguration -> {
                 RethinkDbPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 

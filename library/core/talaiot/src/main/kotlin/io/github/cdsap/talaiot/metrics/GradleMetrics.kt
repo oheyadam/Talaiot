@@ -112,6 +112,8 @@ class JvmMaxPermSizeMetric : JvmArgsMetric(
 class GradleRequestedTasksMetric : GradleMetric<String>(
     provider = { project ->
         val taskNames = project.gradle.findRequestedTasks()
+        println("tasko")
+        println(taskNames)
         if (taskNames.all { it.endsWith("generateDebugSources") }) {
             "gradleSync"
         } else {
@@ -124,12 +126,17 @@ class GradleRequestedTasksMetric : GradleMetric<String>(
 private fun Gradle.findRequestedTasks(): List<String> {
     try {
         val taskNames = startParameter.taskNames
+        println("pepe")
+        println(taskNames)
         val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+        println(executedTasks)
+        println(executedTasks)
         val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
         return taskNames.map {
             taskAbbreviationHandler.findRequestedTask(it)
         }
     } catch (e: Exception) {
+        println("exception ee  "+e.message)
         return emptyList<String>()
     }
 }

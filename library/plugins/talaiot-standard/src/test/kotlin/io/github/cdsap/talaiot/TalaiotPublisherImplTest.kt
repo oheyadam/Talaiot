@@ -9,9 +9,6 @@ import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
-import io.github.cdsap.talaiot.entities.CacheInfo
-import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
@@ -25,7 +22,6 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
-import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
@@ -57,7 +53,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publisher = TalaiotPublisherImpl(
                 getMetricsProvider(),
                 publishers,
-                ExecutedTasksInfo(emptyMap()),
                 taskFilterProcessor,
                 buildFilterProcessor
             )
@@ -475,32 +470,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             val publisher = talaiotPublisherImpl(
                 extension, logger, getMetricsProvider(), publishers,
-                ExecutedTasksInfo(
-                    mapOf(
-                        ":app:a" to ExecutedGradleTaskInfo(
-                            id = 1L,
-                            taskName = ":app:a",
-                            isCacheEnabled = false,
-                            localCacheInfo = CacheInfo.CacheDisabled,
-                            remoteCacheInfo = CacheInfo.CacheDisabled
-                        ),
-                        ":app:b" to ExecutedGradleTaskInfo(
-                            id = 1L,
-                            taskName = ":app:b",
-                            isCacheEnabled = true,
-                            localCacheInfo = CacheInfo.CacheHit,
-                            remoteCacheInfo = CacheInfo.CacheDisabled
-                        ),
-                        ":app:c" to ExecutedGradleTaskInfo(
-                            id = 1L,
-                            taskName = ":app:c",
-                            isCacheEnabled = true,
-                            localCacheInfo = CacheInfo.CacheMiss,
-                            remoteCacheInfo = CacheInfo.CacheHit
-                        )
-                    )
-                )
-            )
+
             publisher.publish(
                 mutableListOf(getSingleTask("a"), getSingleTask("b"), getSingleTask("c")),
                 0,
@@ -519,35 +489,17 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     state = TaskMessageState.EXECUTED,
                     rootNode = false,
                     module = "app",
-                    taskDependencies = emptyList(),
-                    workerId = "",
                     startMs = 0,
-                    stopMs = 0,
-                    critical = false,
-                    isCacheEnabled = false,
-                    isLocalCacheHit = false,
-                    isLocalCacheMiss = false,
-                    isRemoteCacheHit = false,
-                    isRemoteCacheMiss = false
+                    stopMs = 0
                 )
 
                 val expectedTasks = listOf(
                     expectedTaskA,
                     expectedTaskA.copy(
-                        taskName = "b", taskPath = ":app:b",
-                        isCacheEnabled = true,
-                        isLocalCacheHit = true,
-                        isLocalCacheMiss = false,
-                        isRemoteCacheHit = false,
-                        isRemoteCacheMiss = false
+                        taskName = "b", taskPath = ":app:b"
                     ),
                     expectedTaskA.copy(
-                        taskName = "c", taskPath = ":app:c",
-                        isCacheEnabled = true,
-                        isLocalCacheHit = false,
-                        isLocalCacheMiss = true,
-                        isRemoteCacheHit = true,
-                        isRemoteCacheMiss = false
+                        taskName = "c", taskPath = ":app:c"
                     )
                 )
                 reportCaptor.firstValue.tasks.shouldBe(expectedTasks)
@@ -560,8 +512,7 @@ private fun talaiotPublisherImpl(
     extension: TalaiotPluginExtension,
     logger: LogTrackerImpl,
     metricsProvider: Provider<ExecutionReport>,
-    publishers: PublisherConfigurationProvider,
-    executedTasksInfo: ExecutedTasksInfo
+    publishers: PublisherConfigurationProvider
 ): TalaiotPublisherImpl {
     val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
     val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
@@ -617,8 +568,7 @@ private fun getSingleTask(name: String = "a") = TaskLength(
     taskPath = ":app:$name",
     state = TaskMessageState.EXECUTED,
     rootNode = false,
-    module = "app",
-    taskDependencies = emptyList()
+    module = "app"
 )
 
 private class SimpleProvider<T>(private val value: T) : Provider<T> {

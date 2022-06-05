@@ -19,8 +19,7 @@ class RethinkdbConfigurationProvider(
                 publishers.add(
                     RethinkDbPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger),
-                        Executors.newSingleThreadExecutor()
+                        LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
             }

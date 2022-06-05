@@ -41,7 +41,7 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             `when`("Publisher is sent ") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger, TestExecutor()
+                    rethinkDbConfiguration, logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -65,7 +65,7 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 }
 
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger, TestExecutor()
+                    rethinkDbConfiguration, logger
                 )
                 then("Error is thrown pointing the correct configuration") {
                     val exception = shouldThrow<IllegalStateException> {
@@ -73,6 +73,7 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                             executionReportData()
                         )
                     }
+
                     assertTrue(exception.localizedMessage.contains("RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName:"))
                 }
             }
@@ -80,7 +81,7 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger, TestExecutor()
+                    rethinkDbConfiguration, logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -108,13 +109,14 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger, TestExecutor()
+                    rethinkDbConfiguration, logger
                 )
                 rethinkDb.publish(
                     executionReportData()
                 )
 
                 then("Build Info is properly saved") {
+                    Thread.sleep(2000)
                     val elementInBuildTable: Cursor<HashMap<String, String>> =
                         r.db(rethinkDbConfiguration.dbName).table(rethinkDbConfiguration.buildTableName).run(conn)
                     val builds = elementInBuildTable.toList()
@@ -133,13 +135,14 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger, TestExecutor()
+                    rethinkDbConfiguration, logger
                 )
                 rethinkDb.publish(
                     executionReportData()
                 )
 
                 then("Task Info is properly saved") {
+                    Thread.sleep(3000)
                     val elementInTaskTable: Cursor<HashMap<String, String>> =
                         r.db(rethinkDbConfiguration.dbName).table(rethinkDbConfiguration.taskTableName).run(conn)
                     val tasks = elementInTaskTable.toList()
@@ -174,11 +177,11 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 ),
                 TaskLength(
                     100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

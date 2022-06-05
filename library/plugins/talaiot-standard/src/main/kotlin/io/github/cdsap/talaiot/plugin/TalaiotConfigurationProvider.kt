@@ -59,8 +59,7 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     PushGatewayPublisher(
                         this,
-                        logger,
-                        executor
+                        logger
                     )
                 )
             }
@@ -78,8 +77,7 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     ElasticSearchPublisher(
                         this,
-                        logger,
-                        executor
+                        logger
                     )
                 )
             }
@@ -88,8 +86,7 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     HybridPublisher(
                         this,
-                        logger,
-                        executor
+                        logger
                     )
                 )
             }
@@ -98,8 +95,7 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     RethinkDbPublisher(
                         this,
-                        logger,
-                        executor
+                        logger
                     )
                 )
             }

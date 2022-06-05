@@ -13,7 +13,6 @@ class PushGatewayTaskCollector(
         report.tasks?.forEach {
             val labelValuesTask = pushGatewayLabelProvider.taskLabelValues(it).toTypedArray()
             val labelNamesTask = pushGatewayLabelProvider.taskLabelNames().toTypedArray()
-
             gaugeBuild(
                 "gradle_task_${it.taskName}",
                 "Gradle task ${it.taskName}",

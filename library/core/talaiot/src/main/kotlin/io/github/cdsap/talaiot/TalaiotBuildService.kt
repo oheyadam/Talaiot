@@ -3,8 +3,6 @@ package io.github.cdsap.talaiot
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
-import org.gradle.BuildResult
-import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
@@ -19,41 +17,33 @@ abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, A
     var configurationIsSet = false
 
     interface Params : BuildServiceParameters {
-        val targeta: Property<TalaiotPublisher>
+        val publisher: Property<TalaiotPublisher>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
 
     init {
         start = System.currentTimeMillis()
-
     }
 
     override fun close() {
-
-        parameters.targeta.get().publish(
-            taskLengthList,
-            start,
-            configurationTime,
-            System.currentTimeMillis(),
-            taskLengthList.filter { it.state == TaskMessageState.FAILED }.isEmpty()
-        )
+        parameters.publisher.get().publish(taskLengthList = taskLengthList,
+            start = start,
+            configuraionMs = configurationTime,
+            end = System.currentTimeMillis(),
+            success = taskLengthList.none { it.state == TaskMessageState.FAILED })
     }
 
-
-    override fun onFinish(p0: FinishEvent?) {
-
-        println(p0.toString())
+    override fun onFinish(event: FinishEvent?) {
         if (!configurationIsSet) {
             configurationTime = System.currentTimeMillis() - start
             configurationIsSet = true
         }
-        //   println("onfinish")
-        val duration = p0?.result?.endTime!! - p0.result?.startTime!!
-        val end = p0.result?.endTime!!
-        val start = p0.result?.startTime!!
-        val task = p0.descriptor?.name.toString()
-        val state = p0.displayName.split(" ")[2]
+        val duration = event?.result?.endTime!! - event.result?.startTime!!
+        val end = event.result?.endTime!!
+        val start = event.result?.startTime!!
+        val task = event.descriptor?.name.toString()
+        val state = event.displayName.split(" ")[2]
 
         taskLengthList.add(
             taskLength(
@@ -66,7 +56,6 @@ abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, A
                 }, rootNode = false, startMs = start, stopMs = end
             )
         )
-
     }
 }
 
@@ -74,7 +63,7 @@ private fun taskLength(
     ms: Long, task: String, state: TaskMessageState, rootNode: Boolean, startMs: Long, stopMs: Long
 ): TaskLength = TaskLength(
     ms = ms,
-    taskName = task,
+    taskName = task.split(":").last(),
     taskPath = task,
     state = state,
     rootNode = rootNode,
@@ -85,7 +74,6 @@ private fun taskLength(
 
 private fun getModule(path: String): String {
     val module = path.split(":")
-
     return if (module.size > 2) module.toList().dropLast(1).joinToString(separator = ":")
     else "no_module"
 }

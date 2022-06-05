@@ -14,11 +14,21 @@ interface PushGatewayCollector {
         registry: CollectorRegistry,
         labelsNames: Array<String>,
         labelsValues: Array<String>
-    ) = Gauge.build()
-        .name(name)
-        .help(help)
-        .labelNames(*labelsNames)
-        .register(registry)
-        .labels(*labelsValues)
-        .set(value)
+    ) {
+        println("kkkk")
+        try {
+            Gauge.build()
+                .name(name)
+                .help(help)
+                .labelNames(*labelsNames)
+                .register(registry)
+                .labels(*labelsValues)
+                .set(value)
+        }catch (e: Exception ){
+            println("ssss")
+            println(e.message)
+        }
+        println("lllll")
+    }
+
 }

@@ -17,10 +17,6 @@ import java.util.concurrent.Executor
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,
     private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
 ) : Publisher, java.io.Serializable {
 
     private val TAG = "HybridPublisher"
@@ -64,16 +60,14 @@ class HybridPublisher(
             is PushGatewayPublisherConfiguration -> {
                 PushGatewayPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 
             is ElasticSearchPublisherConfiguration -> {
                 ElasticSearchPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 

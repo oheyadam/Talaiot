@@ -71,7 +71,7 @@ class InfluxDbPublisher(
                 val buildMeasurement = createBuildPoint(report)
                 pointsBuilder.point(buildMeasurement)
             }
-            executor.execute {
+        //    executor.execute {
                 logTracker.log(TAG, "================")
                 logTracker.log(TAG, "InfluxDbPublisher")
                 logTracker.log(
@@ -92,9 +92,10 @@ class InfluxDbPublisher(
                 } catch (e: Exception) {
                     logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
                 }
-            }
+     //       }
 
         } catch (e: Exception) {
+            println("inakii     ${e.message}")
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
@@ -139,16 +140,21 @@ class InfluxDbPublisher(
     }
 
     private fun createDb(): InfluxDB {
+        println("ianaki3")
         val okHttpBuilder = OkHttpClient.Builder()
             .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
             .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
         val user = influxDbPublisherConfiguration.username
+        println("ianaki4")
         val password = influxDbPublisherConfiguration.password
+        println("ianaki5")
+
         val url = influxDbPublisherConfiguration.url
         val dbName = influxDbPublisherConfiguration.dbName
         val retentionPolicyConfiguration =
             influxDbPublisherConfiguration.retentionPolicyConfiguration
+        println("ianaki6")
 
         val influxDb = if (user.isNotEmpty() && password.isNotEmpty()) {
             InfluxDBFactory.connect(url, user, password, okHttpBuilder)
@@ -158,10 +164,21 @@ class InfluxDbPublisher(
         influxDb.setLogLevel(InfluxDB.LogLevel.BASIC)
 
         val rpName = retentionPolicyConfiguration.name
+        println("ianaki7")
 
         if (!influxDb.databaseExists(dbName)) {
             logTracker.log(TAG, "Creating db $dbName")
-            influxDb.createDatabase(dbName)
+            println("ianaki8a")
+println(dbName)
+            try {
+                influxDb.createDatabase(dbName)
+            }
+            catch (e:Exception){
+                println("xx")
+                println(e.message)
+            }
+            println("ianaki8")
+
 
             val duration = retentionPolicyConfiguration.duration
             val shardDuration = retentionPolicyConfiguration.shardDuration
@@ -182,6 +199,7 @@ class InfluxDbPublisher(
         influxDb.setRetentionPolicy(rpName)
         influxDb.enableBatch()
         influxDb.enableGzip()
+        println("ianaki4")
         return influxDb
     }
 }

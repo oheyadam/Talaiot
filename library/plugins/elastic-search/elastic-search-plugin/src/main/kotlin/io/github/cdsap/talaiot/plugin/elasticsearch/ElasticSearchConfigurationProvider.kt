@@ -19,8 +19,7 @@ class ElasticSearchConfigurationProvider(
                 publishers.add(
                     ElasticSearchPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger),
-                        Executors.newSingleThreadExecutor()
+                        LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
             }

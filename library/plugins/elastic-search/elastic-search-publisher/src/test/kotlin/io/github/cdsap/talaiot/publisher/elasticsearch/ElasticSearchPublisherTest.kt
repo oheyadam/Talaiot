@@ -42,7 +42,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         url = "http://" + container.httpHostAddress
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -105,7 +105,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishTaskMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -157,7 +157,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishBuildMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
 
                 elasticSearchPublisher.publish(executionReport())
@@ -221,7 +221,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

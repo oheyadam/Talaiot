@@ -69,7 +69,7 @@ class Talaiot<T : TalaiotExtension>(
                 TalaiotBuildService::class.java
             ) { spec ->
                 // Provide some parameters
-                spec.parameters.targeta.set(talaiotPublisher)
+                spec.parameters.publisher.set(talaiotPublisher)
             }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

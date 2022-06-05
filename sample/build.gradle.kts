@@ -29,13 +29,16 @@ configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
 //            gexf = true
 //        }
 
-        influxDbPublisher {
-            dbName = "tracking"
-            url = "http://localhost:8086"
-            taskMetricName = "task"
-            buildMetricName = "build"
-        }
+//        influxDbPublisher {
+//            dbName = "tracking"
+//            url = "http://localhost:8086"
+//            taskMetricName = "task"
+//            buildMetricName = "build"
+//        }
 
+        pushGatewayPublisher {
+            url = "http://12.12.1.12"
+        }
         // You can also define your own custom publishers:
         customPublishers(
      //       CustomPublisher(),

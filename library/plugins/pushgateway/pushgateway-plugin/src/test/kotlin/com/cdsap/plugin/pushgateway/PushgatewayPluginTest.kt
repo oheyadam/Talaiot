@@ -47,9 +47,10 @@ class PushgatewayPluginTest : BehaviorSpec() {
 
                 GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
+                    .withArguments(":assemble")
                     .withPluginClasspath()
                     .build()
+                println("inakiiiii")
                 then("there are build/task records in the Pushgateway instance") {
                     Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
@@ -64,13 +65,13 @@ class PushgatewayPluginTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
-
+                    println(content)
                     assert(
                         content?.contains("gradle_build_total_time{")
                             ?: false
                     )
                     assert(
-                        content?.contains("requestedTasks=\"assemble\"")
+                        content?.contains("requestedTasks=\":assemble\"")
                             ?: false
                     )
                     assert(

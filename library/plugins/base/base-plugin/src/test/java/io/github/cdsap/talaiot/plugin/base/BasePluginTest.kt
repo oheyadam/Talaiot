@@ -34,16 +34,12 @@ class BasePluginTest : BehaviorSpec() {
                     .withArguments("assemble","--configuration-cache","--info")
                     .withPluginClasspath()
                     .build()
-                println(result.output)
-
-
 
                 val result2 = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()
                     .build()
-                println(result2.output)
 
 
                 then("json build info exists") {

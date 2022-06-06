@@ -2,7 +2,7 @@ package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildIdMetric
-//import io.github.cdsap.talaiot.metrics.CacheHitMetric
+// import io.github.cdsap.talaiot.metrics.CacheHitMetric
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric

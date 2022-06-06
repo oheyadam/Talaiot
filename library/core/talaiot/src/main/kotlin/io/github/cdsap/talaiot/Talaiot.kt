@@ -15,7 +15,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.configurationcache.extensions.serviceOf
 
-
 /**
  * Talaiot main [Plugin].
  *
@@ -55,7 +54,6 @@ class Talaiot<T : TalaiotExtension>(
             val buildFilterProcessor: BuildFilterProcessor =
                 BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
             publisherConfigurationProvider.get()
-
 
             val talaiotPublisher = TalaiotPublisherImpl(
                 executionReport,

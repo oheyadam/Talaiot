@@ -38,7 +38,7 @@ data class ExecutionReport(
     var success: Boolean = false,
     var scanLink: String? = null,
     var buildInvocationId: String? = null
-) : java.io.Serializable{
+) : java.io.Serializable {
 
     /**
      * Cache ratio of the tasks = tasks_from_cache / all_tasks

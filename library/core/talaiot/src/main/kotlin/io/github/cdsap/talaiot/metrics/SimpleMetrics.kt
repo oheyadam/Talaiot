@@ -7,7 +7,6 @@ import org.gradle.api.Project
 import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.internal.scan.scopeids.BuildScanScopeIds
-import oshi.SystemInfo
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.nio.charset.Charset

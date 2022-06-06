@@ -71,10 +71,6 @@ class DefaultConfigurationSpec : StringSpec({
             val tasks = report.tasks!!
             tasks.size shouldBe 5
             tasks.count { it.rootNode } shouldBe 1
-            println("1ccccccc")
-            println(report.requestedTasks )
-            println( tasks.find { it.rootNode }!!.taskName)
-            println("2ccccccc")
             tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
 
             report.requestedTasks shouldBe "assemble"
@@ -86,7 +82,6 @@ class DefaultConfigurationSpec : StringSpec({
                 it.taskPath shouldNotBe null
                 it.state shouldNotBe null
                 it.module shouldNotBe null
-                it.workerId shouldNotBe null
                 it.startMs shouldNotBe null
                 it.stopMs shouldNotBe null
             }

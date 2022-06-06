@@ -1,20 +1,20 @@
 package io.github.cdsap.talaiot.plugin
 
-import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.JsonPublisher
-//import io.github.cdsap.talaiot.publisher.JsonPublisher
-//import io.github.cdsap.talaiot.publisher.OutputPublisher
+import io.github.cdsap.talaiot.publisher.OutputPublisher
+// import io.github.cdsap.talaiot.publisher.JsonPublisher
+// import io.github.cdsap.talaiot.publisher.OutputPublisher
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
-//import io.github.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl
-//import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
+// import io.github.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl
+// import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
-//import io.github.cdsap.talaiot.publisher.timeline.TimelinePublisher
+// import io.github.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import org.gradle.api.Project
 import java.util.concurrent.Executors
 
@@ -22,20 +22,18 @@ class TalaiotConfigurationProvider(
     val project: Project
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
-        println("1")
         val publishers = mutableListOf<Publisher>()
-        println("2")
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotPluginExtension
         val logger = LogTrackerImpl(talaiotExtension.logger)
         val executor = Executors.newSingleThreadExecutor()
         val heavyExecutor = Executors.newSingleThreadExecutor()
 
         println("3")
-        println( talaiotExtension.publishers.toString())
+        println(talaiotExtension.publishers.toString())
         talaiotExtension.publishers?.apply {
-//            outputPublisher?.apply {
-//                publishers.add(OutputPublisher(this, logger))
-//            }
+            outputPublisher?.apply {
+                publishers.add(OutputPublisher(this, logger))
+            }
 
             influxDbPublisher?.apply {
                 publishers.add(
@@ -45,16 +43,7 @@ class TalaiotConfigurationProvider(
                     )
                 )
             }
-//            taskDependencyGraphPublisher?.apply {
-//                publishers.add(
-//                    TaskDependencyGraphPublisher(
-//                        this,
-//                        logger,
-//                        heavyExecutor,
-//                        GraphPublisherFactoryImpl()
-//                    )
-//                )
-//            }
+
             pushGatewayPublisher?.apply {
                 publishers.add(
                     PushGatewayPublisher(
@@ -68,10 +57,6 @@ class TalaiotConfigurationProvider(
                 println("adding this thing")
                 publishers.add(JsonPublisher(project.gradle.rootProject.buildDir))
             }
-//
-//            if (timelinePublisher) {
-//                publishers.add(TimelinePublisher(project.gradle.rootProject.buildDir))
-//            }
 
             elasticSearchPublisher?.apply {
                 publishers.add(

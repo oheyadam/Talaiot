@@ -9,7 +9,9 @@ import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
 
-abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, AutoCloseable,
+abstract class TalaiotBuildService :
+    BuildService<TalaiotBuildService.Params>,
+    AutoCloseable,
     OperationCompletionListener {
 
     var start = 0L
@@ -27,11 +29,13 @@ abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, A
     }
 
     override fun close() {
-        parameters.publisher.get().publish(taskLengthList = taskLengthList,
+        parameters.publisher.get().publish(
+            taskLengthList = taskLengthList,
             start = start,
             configuraionMs = configurationTime,
             end = System.currentTimeMillis(),
-            success = taskLengthList.none { it.state == TaskMessageState.FAILED })
+            success = taskLengthList.none { it.state == TaskMessageState.FAILED }
+        )
     }
 
     override fun onFinish(event: FinishEvent?) {
@@ -47,20 +51,27 @@ abstract class TalaiotBuildService : BuildService<TalaiotBuildService.Params>, A
 
         taskLengthList.add(
             taskLength(
-                ms = duration, task = task, state = when (state) {
+                ms = duration, task = task,
+                state = when (state) {
                     "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                     "FROM-CACHE" -> TaskMessageState.FROM_CACHE
                     "NO-SOURCE" -> TaskMessageState.NO_SOURCE
                     "failed" -> TaskMessageState.FAILED
                     else -> TaskMessageState.EXECUTED
-                }, rootNode = false, startMs = start, stopMs = end
+                },
+                rootNode = false, startMs = start, stopMs = end
             )
         )
     }
 }
 
 private fun taskLength(
-    ms: Long, task: String, state: TaskMessageState, rootNode: Boolean, startMs: Long, stopMs: Long
+    ms: Long,
+    task: String,
+    state: TaskMessageState,
+    rootNode: Boolean,
+    startMs: Long,
+    stopMs: Long
 ): TaskLength = TaskLength(
     ms = ms,
     taskName = task.split(":").last(),
@@ -77,4 +88,3 @@ private fun getModule(path: String): String {
     return if (module.size > 2) module.toList().dropLast(1).joinToString(separator = ":")
     else "no_module"
 }
-

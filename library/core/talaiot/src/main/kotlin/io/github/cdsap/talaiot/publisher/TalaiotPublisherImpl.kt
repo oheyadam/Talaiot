@@ -4,7 +4,6 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
-import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 
 /**
  * Implementation of TalaiotPublisher.

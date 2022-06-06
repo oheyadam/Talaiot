@@ -97,4 +97,5 @@ fun getTask(module: String, name: String, duration: Long = 1L) = TaskLength(
     taskPath = "$module:$name",
     state = TaskMessageState.EXECUTED,
     rootNode = false,
-    module = module)
+    module = module
+)

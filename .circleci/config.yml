@@ -36,6 +36,7 @@ jobs:
       - store_artifacts:
           path: |
             build/reports/tests/
+            home/circleci/repo/library/plugins/talaiot-standard/build/reports/tests/test/index.html
             library/plugins/talaiot-standard/build/reports/tests/test/*
 
   deploy-snapshot:

@@ -333,7 +333,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 }
             }
             setUpMockExtension(project, extension)
-            val report = ExecutionReport(requestedTasks = ":module:taskB")
+            val report = ExecutionReport(requestedTasks = ":module:taskA")
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))

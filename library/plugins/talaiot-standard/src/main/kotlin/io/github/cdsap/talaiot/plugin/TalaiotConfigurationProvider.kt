@@ -29,9 +29,12 @@ class TalaiotConfigurationProvider(
         val heavyExecutor = Executors.newSingleThreadExecutor()
 
         println("3")
+
         println(talaiotExtension.publishers.toString())
+
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
+                println("yes")
                 publishers.add(OutputPublisher(this, logger))
             }
 

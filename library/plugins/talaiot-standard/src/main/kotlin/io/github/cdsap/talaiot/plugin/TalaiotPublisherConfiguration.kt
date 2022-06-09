@@ -100,20 +100,20 @@ class TalaiotPublisherConfiguration(
      *
      * @param configuration Configuration block for the [OutputPublisherConfiguration]
      */
-//    fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
-//        outputPublisher = OutputPublisherConfiguration().also(configuration)
-//    }
+    fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
+        outputPublisher = OutputPublisherConfiguration().also(configuration)
+    }
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [OutputPublisher]
      *
      * @param closure closure for the [OutputPublisherConfiguration]
      */
-//    fun outputPublisher(closure: Closure<*>) {
-//        outputPublisher = OutputPublisherConfiguration()
-//        closure.delegate = outputPublisher
-//        closure.call()
-//    }
+    fun outputPublisher(closure: Closure<*>) {
+        outputPublisher = OutputPublisherConfiguration()
+        closure.delegate = outputPublisher
+        closure.call()
+    }
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [PushGatewayPublisher]

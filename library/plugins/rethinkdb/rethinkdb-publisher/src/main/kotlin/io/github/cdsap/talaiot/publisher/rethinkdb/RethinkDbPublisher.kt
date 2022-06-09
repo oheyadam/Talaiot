@@ -26,7 +26,6 @@ class RethinkDbPublisher(
 
     private val TAG = "RethinkDbPublisher"
 
-
     override fun publish(report: ExecutionReport) {
         println("122112122")
         if (rethinkDbPublisherConfiguration.url.isEmpty() ||
@@ -36,13 +35,13 @@ class RethinkDbPublisher(
         ) {
             error(
                 "RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName: \n" +
-                        "rethinkDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            buildTableName = \"build\"\n" +
-                        "            taskTableName = \"task\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "rethinkDbPublisher {\n" +
+                    "            dbName = \"tracking\"\n" +
+                    "            url = \"http://localhost:8086\"\n" +
+                    "            buildTableName = \"build\"\n" +
+                    "            taskTableName = \"task\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
         }
         println("23323232233232")
@@ -171,7 +170,6 @@ class RethinkDbPublisher(
             }
         }
         println("$444x")
-
     }
 
     private fun createTaskEntries(report: ExecutionReport): Map<String, Any> {

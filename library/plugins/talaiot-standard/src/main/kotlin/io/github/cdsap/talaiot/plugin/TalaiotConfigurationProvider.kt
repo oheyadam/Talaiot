@@ -52,9 +52,7 @@ class TalaiotConfigurationProvider(
                     )
                 )
             }
-            println("kkskdskdskdskkdkddkskds")
             if (jsonPublisher) {
-                println("adding this thing")
                 publishers.add(JsonPublisher(project.gradle.rootProject.buildDir))
             }
 
@@ -84,7 +82,6 @@ class TalaiotConfigurationProvider(
                     )
                 )
             }
-
             publishers.addAll(customPublishers)
         }
         return publishers

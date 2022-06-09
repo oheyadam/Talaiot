@@ -12,7 +12,6 @@ import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import java.util.concurrent.Executor
 
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,

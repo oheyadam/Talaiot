@@ -15,9 +15,7 @@ import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
-import io.github.cdsap.talaiot.plugin.TalaiotConfigurationProvider
 import io.github.cdsap.talaiot.plugin.TalaiotPluginExtension
-import io.github.cdsap.talaiot.provider.Provider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
@@ -41,30 +39,24 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 metricsConfiguration()
             }
 
-            setUpMockExtension(project, extension)
-            val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
-            val buildFilterProcessor =
-                BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
-
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
-            val executionReport = ExecutionReport()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
-            val talaiotConfigurationProvider = TalaiotConfigurationProvider(
-                project
-            )
-            val publisher = TalaiotPublisherImpl(
-                executionReport, talaiotConfigurationProvider.get(), taskFilterProcessor, buildFilterProcessor
-            )
+            val executionReport = ExecutionReport()
+            setUpMockExtension(project, extension)
 
-            publisher.publish(
+            talaiotPublisherImpl(
+                extension, logger, project, executionReport, publishers.get()
+            ).publish(
                 mutableListOf(getSingleTask()), 0, 100, 200, true
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
         `when`("more than one publisher is included ") {
@@ -80,25 +72,26 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 }
                 metricsConfiguration()
             }
-            setUpMockExtension(project, extension)
-
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             val influxDbPublisher: Publisher = mock()
-
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
+            val executionReport = ExecutionReport()
+            setUpMockExtension(project, extension)
 
             talaiotPublisherImpl(
-                extension, logger, project
+                extension, logger, project, executionReport, publishers.get()
             ).publish(
                 getTasks(), 0, 100, 200, true
             )
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 2
-                })
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 2
+                    }
+                )
             }
         }
         `when`("one filter has been configured") {
@@ -120,24 +113,27 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 metricsConfiguration()
             }
-            setUpMockExtension(project, extension)
 
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             val influxDbPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
+            val executionReport = ExecutionReport()
+            setUpMockExtension(project, extension)
             talaiotPublisherImpl(
-                extension, logger, project
+                extension, logger, project, executionReport, publishers.get()
             ).publish(
                 getTasks(), 0, 100, 200, true
             )
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
 
@@ -160,20 +156,28 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 metricsConfiguration()
             }
-            setUpMockExtension(project, extension)
+            val outputPublisher: Publisher = mock()
+            val influxDbPublisher: Publisher = mock()
 
             val publishers: PublisherConfigurationProvider = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
+
+            val executionReport = ExecutionReport()
+            setUpMockExtension(project, extension)
+
             talaiotPublisherImpl(
-                extension, logger, project
+                extension, logger, project, executionReport, publishers.get()
             ).publish(
                 getTasks(), 0, 100, 200, true
             )
 
             then("two publishers are processed and one task has been filtered ") {
-                assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
+                assert(publishers.get().size == 2)
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
 
@@ -191,27 +195,47 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
             setUpMockExtension(project, extension)
 
+            val executionReport = ExecutionReport()
+            val publishers: PublisherConfigurationProvider = mock()
+            val jsonPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
+            talaiotPublisherImpl(
+                extension, logger, project, executionReport, publishers.get()
+            ).publish(
+                getTasks(), 0, 100, 200, true
+            )
+
             then("successful build is published") {
-                val publisher: Publisher = mock()
 
-                talaiotPublisherImpl(
-                    extension, logger, project
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
-                )
-
-                verify(publisher).publish(any())
+                verify(publishers.get()[0]).publish(any())
             }
+        }
+        `when`("build filter configured to publish only successful build and build fails") {
+            val project: Project = mock()
+            val extension = TalaiotPluginExtension(project).apply {
+                filter {
+                    build {
+                        success = true
+                    }
+                }
+                publishers {
+                    jsonPublisher = true
+                }
+            }
+            setUpMockExtension(project, extension)
+
+            val executionReport = ExecutionReport()
+            val publishers: PublisherConfigurationProvider = mock()
+            val jsonPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
+            talaiotPublisherImpl(
+                extension, logger, project, executionReport, publishers.get()
+            ).publish(
+                getTasks(), 0, 100, 200, false
+            )
 
             then("failed build is not published") {
-                val publisher: Publisher = mock()
-                talaiotPublisherImpl(
-                    extension, logger, project
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = false
-                )
-
-                verifyZeroInteractions(publisher)
+                verifyZeroInteractions(publishers.get()[0])
             }
         }
 
@@ -226,41 +250,47 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     }
                 }
             }
+            setUpMockExtension(project, extension)
+            val publishers: PublisherConfigurationProvider = mock()
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+            val executionReport = ExecutionReport()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+
+            talaiotPublisherImpl(
+                extension, logger, project, executionReport, publishers.get()
+            ).publish(
+                getTasks(), 0, 100, 200, false
+            )
 
             then("build with a different task is published") {
-                val publisher: Publisher = mock()
-
-                setUpMockExtension(project, extension)
-                val publisherProvider: PublisherConfigurationProvider = mock()
-                whenever(publisherProvider.get()).thenReturn(
-                    listOf(
-                        publisher
-                    )
-                )
-
-                val report = ExecutionReport(requestedTasks = ":module:taskB")
-
-                talaiotPublisherImpl(
-                    extension, logger, project, report
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = false
-                )
-
-                verify(publisher).publish(any())
+                verify(publishers.get()[0]).publish(any())
             }
+        }
+        `when`("build filter configured to exclude requested tasks for all tasks") {
+            val project: Project = mock()
+            val extension = TalaiotPluginExtension(project).apply {
+                filter {
+                    build {
+                        requestedTasks {
+                            excludes = arrayOf(":module:taskA")
+                        }
+                    }
+                }
+            }
+            setUpMockExtension(project, extension)
+            val publishers: PublisherConfigurationProvider = mock()
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+            val report = ExecutionReport(requestedTasks = ":module:taskA")
 
-            then("build with all tasks filtered out is not published") {
-                val publisher: Publisher = mock()
-                val publisherProvider = TalaiotConfigurationProvider(project)
-                val report = ExecutionReport(requestedTasks = ":module:taskA")
-
-                talaiotPublisherImpl(
-                    extension, logger, project, report
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
-                )
-
-                verifyZeroInteractions(publisher)
+            talaiotPublisherImpl(
+                extension, logger, project, report, publishers.get()
+            ).publish(
+                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
+            )
+            then("no information is published") {
+                verifyZeroInteractions(publishers.get()[0])
             }
         }
 
@@ -276,38 +306,45 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 }
             }
             setUpMockExtension(project, extension)
+            val report = ExecutionReport(requestedTasks = ":module:taskB")
+            val publishers: PublisherConfigurationProvider = mock()
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
+            talaiotPublisherImpl(
+                extension, logger, project, report, publishers.get()
+            ).publish(
+                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = false
+            )
             then("build with a different task is not published") {
-                val publisher: Publisher = mock()
-                setUpMockExtension(project, extension)
-                val publisherProvider = TalaiotConfigurationProvider(project)
-                val report = ExecutionReport(requestedTasks = ":module:taskB")
 
-                talaiotPublisherImpl(
-                    extension, logger, project, report
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = false
-                )
-
-                verifyZeroInteractions(publisher)
+                verifyZeroInteractions(publishers.get()[0])
             }
+        }
+        `when`("build filter configured to include requested tasks and the task is the same") {
+            val project: Project = mock()
+            val extension = TalaiotPluginExtension(project).apply {
+                filter {
+                    build {
+                        requestedTasks {
+                            includes = arrayOf(":module:taskA")
+                        }
+                    }
+                }
+            }
+            setUpMockExtension(project, extension)
+            val report = ExecutionReport(requestedTasks = ":module:taskB")
+            val publishers: PublisherConfigurationProvider = mock()
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
+            talaiotPublisherImpl(
+                extension, logger, project, report, publishers.get()
+            ).publish(
+                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
+            )
             then("build with the same task is published") {
-                val publisher: Publisher = mock()
-                val publisherProvider: PublisherConfigurationProvider = mock()
-                val report = ExecutionReport(requestedTasks = ":module:taskA")
-                whenever(publisherProvider.get()).thenReturn(
-                    listOf(
-                        publisher
-                    )
-                )
-                talaiotPublisherImpl(
-                    extension, logger, project, report
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
-                )
-
-                verify(publisher).publish(any())
+                verify(publishers.get()[0]).publish(any())
             }
         }
 
@@ -326,31 +363,48 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
             setUpMockExtension(project, extension)
 
+            val report = ExecutionReport(requestedTasks = ":module:taskA :module:taskB")
+            val publishers: PublisherConfigurationProvider = mock()
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+            talaiotPublisherImpl(
+                extension, logger, project, report, publishers.get()
+            ).publish(
+                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
+            )
+
             then("build with at least one task included is published") {
-                val publisher: Publisher = mock()
-                val report = ExecutionReport(requestedTasks = ":module:taskA :module:taskB")
 
-                talaiotPublisherImpl(
-                    extension, logger, project
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
-                )
-
-                verify(publisher).publish(any())
+                verify(publishers.get()[0]).publish(any())
             }
+        }
+        `when`("build filter configured to include and exclude tasks and all tasks are filtered ") {
+            val project: Project = mock()
+            val publishers: PublisherConfigurationProvider = mock()
+            val report = ExecutionReport(requestedTasks = ":module:taskB")
+            val outputPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+            val extension = TalaiotPluginExtension(project).apply {
+                filter {
+                    build {
+                        success = true
+                        requestedTasks {
+                            excludes = arrayOf(":module:taskB")
+                            includes = arrayOf(":module:taskA")
+                        }
+                    }
+                }
+            }
+            setUpMockExtension(project, extension)
+
+            talaiotPublisherImpl(
+                extension, logger, project, report, publishers.get()
+            ).publish(
+                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
+            )
 
             then("build with all tasks filtered out is not published") {
-                val publisher: Publisher = mock()
-                val publisherProvider = TalaiotConfigurationProvider(project)
-                val report = ExecutionReport(requestedTasks = ":module:taskB")
-
-                talaiotPublisherImpl(
-                    extension, logger, project, report
-                ).publish(
-                    taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true
-                )
-
-                verifyZeroInteractions(publisher)
+                verifyZeroInteractions(publishers.get()[0])
             }
         }
 
@@ -368,9 +422,14 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
+            val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+            val buildFilterProcessor =
+                BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
-            val publisher = talaiotPublisherImpl(
-                extension, logger, project
+            val executionReport = ExecutionReport()
+
+            val publisher = TalaiotPublisherImpl(
+                executionReport, publishers.get(), taskFilterProcessor, buildFilterProcessor
             )
 
             publisher.publish(
@@ -392,9 +451,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 )
 
                 val expectedTasks = listOf(
-                    expectedTaskA, expectedTaskA.copy(
+                    expectedTaskA,
+                    expectedTaskA.copy(
                         taskName = "b", taskPath = ":app:b"
-                    ), expectedTaskA.copy(
+                    ),
+                    expectedTaskA.copy(
                         taskName = "c", taskPath = ":app:c"
                     )
                 )
@@ -408,27 +469,15 @@ private fun talaiotPublisherImpl(
     extension: TalaiotPluginExtension,
     logger: LogTrackerImpl,
     project: Project,
-    executionReport: ExecutionReport = ExecutionReport()
+    executionReport: ExecutionReport = ExecutionReport(),
+    publisherList: List<Publisher>
 ): TalaiotPublisherImpl {
     val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
     val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
-    val talaiotConfigurationProvider = TalaiotConfigurationProvider(
-        project
-    )
-
+    setUpMockExtension(project, extension)
     return TalaiotPublisherImpl(
-        executionReport, talaiotConfigurationProvider.get(), taskFilterProcessor, buildFilterProcessor
+        executionReport, publisherList, taskFilterProcessor, buildFilterProcessor
     )
-}
-
-private fun setUpPublisherProvider(publisher: Publisher): PublisherConfigurationProvider {
-    val publisherProvider: PublisherConfigurationProvider = mock()
-    whenever(publisherProvider.get()).thenReturn(
-        listOf(
-            publisher
-        )
-    )
-    return publisherProvider
 }
 
 private fun setUpMockExtension(project: Project, extension: TalaiotPluginExtension) {
@@ -439,14 +488,11 @@ private fun setUpMockExtension(project: Project, extension: TalaiotPluginExtensi
     whenever(extensionContainer.getByName("talaiot")).thenReturn(extension)
 }
 
-private fun getMetricsProvider(report: ExecutionReport = ExecutionReport()): Provider<ExecutionReport> {
-    return SimpleProvider(report)
-}
-
 private fun metricsConfiguration() = MetricsConfiguration()
 
 private fun getTasks() = mutableListOf(
-    getSingleTask(), TaskLength(
+    getSingleTask(),
+    TaskLength(
         ms = 1L,
         taskName = "taskA",
         taskPath = ":app:clean",
@@ -464,9 +510,3 @@ private fun getSingleTask(name: String = "a") = TaskLength(
     rootNode = false,
     module = "app"
 )
-
-private class SimpleProvider<T>(private val value: T) : Provider<T> {
-    override fun get(): T {
-        return value
-    }
-}

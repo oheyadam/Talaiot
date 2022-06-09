@@ -11,10 +11,9 @@ import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import java.net.URL
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class    ElasticSearchPublisher(
+class ElasticSearchPublisher(
     /**
      * General configuration for the publisher
      */

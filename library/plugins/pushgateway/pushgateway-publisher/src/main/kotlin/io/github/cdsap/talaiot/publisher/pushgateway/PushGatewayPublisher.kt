@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.exporter.PushGateway
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 /**
@@ -30,11 +29,11 @@ class PushGatewayPublisher(
         ) {
             println(
                 "PushGatewayPublisher not executed. Configuration requires url and taskJobName: \n" +
-                        "pushGatewayPublisher {\n" +
-                        "            url = \"http://localhost:9093\"\n" +
-                        "            taskJobName = \"tracking\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "pushGatewayPublisher {\n" +
+                    "            url = \"http://localhost:9093\"\n" +
+                    "            taskJobName = \"tracking\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
         } else {
             val url = pushGatewayPublisherConfiguration.url

@@ -24,11 +24,10 @@ interface PushGatewayCollector {
                 .register(registry)
                 .labels(*labelsValues)
                 .set(value)
-        }catch (e: Exception ){
+        } catch (e: Exception) {
             println("ssss")
             println(e.message)
         }
         println("lllll")
     }
-
 }

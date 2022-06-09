@@ -157,16 +157,16 @@ class PushGatewayPublisherTest : BehaviorSpec() {
 
                     assert(
                         !(
-                                content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 100")
-                                    ?: true
-                                )
+                            content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 100")
+                                ?: true
+                            )
                     )
                     assert(
                         !(
-                                content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 1")
+                            content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 1")
 
-                                    ?: true
-                                )
+                                ?: true
+                            )
                     )
                     assert(
                         content?.contains("gradle_build_total_time{instance=\"\",job=\"build3\",metric3=\"value3\",metric4=\"value4\",requestedTasks=\"assemble\"} 100")

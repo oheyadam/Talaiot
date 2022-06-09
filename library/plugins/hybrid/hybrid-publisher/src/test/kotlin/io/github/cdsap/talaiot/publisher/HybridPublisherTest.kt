@@ -13,7 +13,6 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec

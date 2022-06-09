@@ -12,7 +12,6 @@ import org.influxdb.InfluxDBFactory
 import org.influxdb.InfluxDBIOException
 import org.influxdb.dto.BatchPoints
 import org.influxdb.dto.Point
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -43,13 +42,13 @@ class InfluxDbPublisher(
         ) {
             logTracker.error(
                 "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
-                        "influxDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            buildMetricName = \"build\"\n" +
-                        "            taskMetricName = \"task\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "influxDbPublisher {\n" +
+                    "            dbName = \"tracking\"\n" +
+                    "            url = \"http://localhost:8086\"\n" +
+                    "            buildMetricName = \"build\"\n" +
+                    "            taskMetricName = \"task\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
             return
         }
@@ -71,29 +70,28 @@ class InfluxDbPublisher(
                 val buildMeasurement = createBuildPoint(report)
                 pointsBuilder.point(buildMeasurement)
             }
-        //    executor.execute {
-                logTracker.log(TAG, "================")
-                logTracker.log(TAG, "InfluxDbPublisher")
-                logTracker.log(
-                    TAG,
-                    "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
-                )
-                logTracker.log(
-                    TAG,
-                    "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
-                )
-                logTracker.log(TAG, "================")
+            //    executor.execute {
+            logTracker.log(TAG, "================")
+            logTracker.log(TAG, "InfluxDbPublisher")
+            logTracker.log(
+                TAG,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+            )
+            logTracker.log(
+                TAG,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+            )
+            logTracker.log(TAG, "================")
 
-                try {
-                    val _db = createDb()
-                    val points = pointsBuilder.build()
-                    logTracker.log(TAG, "Sending points to InfluxDb server $points")
-                    _db.write(points)
-                } catch (e: Exception) {
-                    logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
-                }
-     //       }
-
+            try {
+                val _db = createDb()
+                val points = pointsBuilder.build()
+                logTracker.log(TAG, "Sending points to InfluxDb server $points")
+                _db.write(points)
+            } catch (e: Exception) {
+                logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+            }
+            //       }
         } catch (e: Exception) {
             println("inakii     ${e.message}")
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
@@ -169,16 +167,14 @@ class InfluxDbPublisher(
         if (!influxDb.databaseExists(dbName)) {
             logTracker.log(TAG, "Creating db $dbName")
             println("ianaki8a")
-println(dbName)
+            println(dbName)
             try {
                 influxDb.createDatabase(dbName)
-            }
-            catch (e:Exception){
+            } catch (e: Exception) {
                 println("xx")
                 println(e.message)
             }
             println("ianaki8")
-
 
             val duration = retentionPolicyConfiguration.duration
             val shardDuration = retentionPolicyConfiguration.shardDuration

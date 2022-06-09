@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew :library:plugins:talaiot-standard:test --info
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
       - run:
           name: build sample
           command: |
@@ -32,12 +32,9 @@ jobs:
       - codecov/upload:
           file: build/reports/jacoco/test/*.xml
       - store_test_results:
-          path: library/plugins/talaiot-standard/build/test-results/test/*.xml
+          path: build/reports/tests/
       - store_artifacts:
-          path: |
-            build/reports/tests/
-            /home/circleci/repo/library/plugins/talaiot-standard/build/reports/tests/test/*
-            library/plugins/talaiot-standard/build/reports/tests/test/*
+          path: build/reports/tests/
 
   deploy-snapshot:
     working_directory: ~/repo

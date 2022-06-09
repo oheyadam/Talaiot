@@ -50,7 +50,6 @@ class PushgatewayPluginTest : BehaviorSpec() {
                     .withArguments(":assemble")
                     .withPluginClasspath()
                     .build()
-                println("inakiiiii")
                 then("there are build/task records in the Pushgateway instance") {
                     Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")

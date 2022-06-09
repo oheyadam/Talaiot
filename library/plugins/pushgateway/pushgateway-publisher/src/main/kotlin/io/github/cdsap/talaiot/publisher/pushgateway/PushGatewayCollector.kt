@@ -15,7 +15,6 @@ interface PushGatewayCollector {
         labelsNames: Array<String>,
         labelsValues: Array<String>
     ) {
-        println("kkkk")
         try {
             Gauge.build()
                 .name(name)
@@ -28,6 +27,5 @@ interface PushGatewayCollector {
             println("ssss")
             println(e.message)
         }
-        println("lllll")
     }
 }

@@ -8,7 +8,6 @@ import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import java.net.URL
-import java.util.concurrent.Executors
 
 /**
  * Publisher using RethinkDb format to send the metrics
@@ -27,7 +26,6 @@ class RethinkDbPublisher(
     private val TAG = "RethinkDbPublisher"
 
     override fun publish(report: ExecutionReport) {
-        println("122112122")
         if (rethinkDbPublisherConfiguration.url.isEmpty() ||
             rethinkDbPublisherConfiguration.dbName.isEmpty() ||
             rethinkDbPublisherConfiguration.taskTableName.isEmpty() ||
@@ -44,28 +42,20 @@ class RethinkDbPublisher(
                     "Please update your configuration"
             )
         }
-        println("23323232233232")
         val r = RethinkDB.r
 
-        val executor = Executors.newSingleThreadExecutor()
-        // executor.execute {
-        println("11111")
         logTracker.log(TAG, "================")
         logTracker.log(TAG, "RethinkDbPublisher")
         logTracker.log(TAG, "publishBuildMetrics: ${rethinkDbPublisherConfiguration.publishBuildMetrics}")
         logTracker.log(TAG, "publishTaskMetrics: ${rethinkDbPublisherConfiguration.publishTaskMetrics}")
         logTracker.log(TAG, "================")
-        println("2222")
 
         try {
             val url = URL(rethinkDbPublisherConfiguration.url)
-            println("3333")
 
             val conn: Connection = if (rethinkDbPublisherConfiguration.username.isBlank() &&
                 rethinkDbPublisherConfiguration.password.isBlank()
             ) {
-                println("444444")
-
                 r.connection()
                     .hostname(url.host)
                     .port(url.port)
@@ -77,23 +67,17 @@ class RethinkDbPublisher(
                     .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
                     .connect()
             }
-            println("555511111")
 
             checkDb(conn, rethinkDbPublisherConfiguration.dbName, r)
-            println("66666511111")
             if (rethinkDbPublisherConfiguration.publishTaskMetrics) {
-                println("77777555511111")
                 val entries = createTaskEntries(report)
-                println("899")
                 if (entries.isNotEmpty()) {
-                    println("1o000")
                     checkTable(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.taskTableName,
                         r
                     )
-                    println("11111")
                     insertEntries(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
@@ -101,24 +85,19 @@ class RethinkDbPublisher(
                         entries,
                         r
                     )
-                    println("33333323239")
                 }
             }
 
-            println("xxxxxx")
             println(rethinkDbPublisherConfiguration.publishBuildMetrics)
             if (rethinkDbPublisherConfiguration.publishBuildMetrics) {
                 val entries = DefaultBuildMetricsProvider(report).get()
-                println("12")
                 if (entries != null && entries.isNotEmpty()) {
-                    println("13")
                     checkTable(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.buildTableName,
                         r
                     )
-                    println("14")
                     insertEntries(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
@@ -126,13 +105,11 @@ class RethinkDbPublisher(
                         entries,
                         r
                     )
-                    println("15")
                 }
             }
         } catch (e: Exception) {
             logTracker.error("RethinkDbPublisher- Error executing the Runnable: ${e.message}")
         }
-        //   }
     }
 
     private fun insertEntries(
@@ -153,23 +130,15 @@ class RethinkDbPublisher(
     }
 
     private fun checkTable(conn: Connection, db: String, table: String, r: RethinkDB) {
-        println("xxx")
         val exist = r.db(db).tableList().contains(table).run<Boolean>(conn)
-        println("22222")
 
         if (!exist) {
-            println("4444x")
             try {
-                println("x")
                 val a = r.db(db).tableCreate(table).run<Any>(conn)
-                println(a)
-
-                println("3")
             } catch (e: Exception) {
                 println(e.message)
             }
         }
-        println("$444x")
     }
 
     private fun createTaskEntries(report: ExecutionReport): Map<String, Any> {

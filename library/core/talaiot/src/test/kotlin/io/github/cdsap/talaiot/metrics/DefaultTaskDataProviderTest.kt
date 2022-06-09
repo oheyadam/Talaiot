@@ -31,10 +31,6 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     "metric2" to "value2",
                     "value" to 1000L
                 )
-                metrics.forEach {
-                    println(it.key)
-                    println(it.value)
-                }
                 metrics.shouldBe(expectedMetrics)
             }
         }

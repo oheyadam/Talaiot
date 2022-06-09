@@ -47,27 +47,30 @@ class Talaiot<T : TalaiotExtension>(
 
         val extension = target.extensions.create("talaiot", classExtension, target)
         val executionReport = ExecutionReport()
+
         target.gradle.taskGraph.whenReady {
+            val parameters = target.gradle.startParameter.taskRequests.flatMap {
+                it.args.flatMap { task ->
+                    listOf(task.toString())
+                }
+            }
             MetricsPostBuildProvider(MetricsConfiguration().build(), executionReport, target).get()
             val logger = LogTrackerImpl(LogTracker.Mode.INFO)
-            val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
-            val buildFilterProcessor: BuildFilterProcessor =
+            val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+            val buildFilterProcessor =
                 BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
             publisherConfigurationProvider.get()
 
             val talaiotPublisher = TalaiotPublisherImpl(
-                executionReport,
-                publisherConfigurationProvider.get(),
-                taskFilterProcessor,
-                buildFilterProcessor
+                executionReport, publisherConfigurationProvider.get(), taskFilterProcessor, buildFilterProcessor
             )
 
             val serviceProvider: Provider<TalaiotBuildService> = target.gradle.sharedServices.registerIfAbsent(
-                "web",
-                TalaiotBuildService::class.java
+                "talaiotService", TalaiotBuildService::class.java
             ) { spec ->
                 // Provide some parameters
                 spec.parameters.publisher.set(talaiotPublisher)
+                spec.parameters.startParameters.set(parameters)
             }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

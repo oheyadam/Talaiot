@@ -63,8 +63,6 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
-                    println("1")
-                    println(content)
                     assert(
                         content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 100")
                             ?: false
@@ -111,7 +109,6 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     }
                     val content = a.body()?.string()
 
-                    println(content)
                     assert(
                         content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 1")
                             ?: false

@@ -14,9 +14,7 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
-// import io.github.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import org.gradle.api.Project
-import java.util.concurrent.Executors
 
 class TalaiotConfigurationProvider(
     val project: Project
@@ -25,12 +23,6 @@ class TalaiotConfigurationProvider(
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotPluginExtension
         val logger = LogTrackerImpl(talaiotExtension.logger)
-        val executor = Executors.newSingleThreadExecutor()
-        val heavyExecutor = Executors.newSingleThreadExecutor()
-
-        println("3")
-
-        println(talaiotExtension.publishers.toString())
 
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {

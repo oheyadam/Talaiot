@@ -14,8 +14,9 @@ class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "7.2" // ,
-      /*          "7.1.1",
+                "7.4.1",
+                "7.2",
+                "7.1.1",
                 "7.1",
                 "7.0.2",
                 "7.0",
@@ -24,7 +25,7 @@ class DefaultConfigurationSpec : StringSpec({
                 "6.5.1",
                 "6.4.1",
                 "6.2.1",
-                "6.0.1"*/
+                "6.0.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
@@ -54,13 +55,11 @@ class DefaultConfigurationSpec : StringSpec({
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
-            println(result.output)
 
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
             testProjectDir.delete()
-            println(report.toString())
             report.environment.gradleVersion shouldBe version
             println("1")
             report.beginMs shouldNotBe null
@@ -74,19 +73,14 @@ class DefaultConfigurationSpec : StringSpec({
             println("15")
 
             val tasks = report.tasks!!
-            println("16")
-
             tasks.size shouldBe 5
-            println("17")
+            tasks.count { it.rootNode } shouldBe 1
 
-            //  tasks.count { it.rootNode } shouldBe 1
-            println("18")
-
-            //    tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
+            tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
             println("19")
 
             report.requestedTasks shouldBe "assemble"
-            //     report.rootProject shouldNotBe null
+            report.rootProject shouldNotBe null
             report.success shouldBe true
             println("20")
 

@@ -17,9 +17,11 @@ object ExecutionReportProvider {
 
     fun executionReport(): ExecutionReport {
         return ExecutionReport(
-            requestedTasks = "assemble", durationMs = "10", success = true, environment = Environment(
+            requestedTasks = "assemble", durationMs = "10", success = true,
+            environment = Environment(
                 cpuCount = "12", maxWorkers = "4"
-            ), customProperties = CustomProperties(
+            ),
+            customProperties = CustomProperties(
                 taskProperties = getMetricsTasks(), buildProperties = getMetricsBuild()
             ),
 

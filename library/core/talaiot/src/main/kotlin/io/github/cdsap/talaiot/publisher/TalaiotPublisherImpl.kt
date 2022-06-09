@@ -22,7 +22,11 @@ class TalaiotPublisherImpl(
 ) : TalaiotPublisher, java.io.Serializable {
 
     override fun publish(
-        taskLengthList: MutableList<TaskLength>, start: Long, configuraionMs: Long?, end: Long, success: Boolean
+        taskLengthList: MutableList<TaskLength>,
+        start: Long,
+        configuraionMs: Long?,
+        end: Long,
+        success: Boolean
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList

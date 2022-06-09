@@ -15,37 +15,31 @@ import io.github.cdsap.talaiot.filter.TaskFilterProcessor
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    private val metricsProvider: ExecutionReport,
+    private val executionReport: ExecutionReport,
     private val publisherProvider: List<Publisher>,
     private val taskFilterProcessor: TaskFilterProcessor,
     private val buildFilterProcessor: BuildFilterProcessor
 ) : TalaiotPublisher, java.io.Serializable {
 
     override fun publish(
-        taskLengthList: MutableList<TaskLength>,
-        start: Long,
-        configuraionMs: Long?,
-        end: Long,
-        success: Boolean
+        taskLengthList: MutableList<TaskLength>, start: Long, configuraionMs: Long?, end: Long, success: Boolean
     ) {
-        val xx = metricsProvider
+        executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+        executionReport.unfilteredTasks = taskLengthList
+        executionReport.beginMs = start.toString()
+        executionReport.endMs = end.toString()
+        executionReport.success = success
 
-        xx.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
-        xx.unfilteredTasks = taskLengthList
-        xx.beginMs = start.toString()
-        xx.endMs = end.toString()
-        xx.success = success
+        executionReport.durationMs = (end - start).toString()
 
-        xx.durationMs = (end - start).toString()
-
-        xx.configurationDurationMs = when {
+        executionReport.configurationDurationMs = when {
             configuraionMs != null -> (configuraionMs - start).toString()
             else -> "undefined"
         }
 
-        if (buildFilterProcessor.shouldPublishBuild(xx)) {
+        if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             publisherProvider.forEach {
-                it.publish(xx)
+                it.publish(executionReport)
             }
         }
     }

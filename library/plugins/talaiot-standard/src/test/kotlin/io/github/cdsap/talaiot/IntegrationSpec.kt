@@ -53,6 +53,7 @@ class DefaultConfigurationSpec : StringSpec({
                 .withGradleVersion(version)
                 .build()
 
+            Thread.sleep(2000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 

@@ -47,26 +47,6 @@ data class ExecutionReport(
         get() = unfilteredTasks?.let {
             it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
         }?.toString()
-
-    /**
-     * Fills in the [TaskLength.critical] to later check which task was on the critical (longest in terms of time) path
-     *
-     * This would be a lot faster if it was actually a weighted graph
-     */
-//    fun estimateCriticalPath() {
-//        var currentRoot: TaskLength? = tasks?.find { it.rootNode } ?: return
-//
-//        while (currentRoot != null) {
-//            currentRoot.critical = true
-//
-//            val dependencies = currentRoot.taskDependencies
-//                .mapNotNull { dep ->
-//                    tasks?.find { it.taskPath == dep }
-//                }
-//
-//            currentRoot = dependencies.maxBy { it.stopMs } ?: null
-//        }
-//    }
 }
 
 data class Environment(

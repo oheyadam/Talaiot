@@ -4,12 +4,8 @@ import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.JsonPublisher
 import io.github.cdsap.talaiot.publisher.OutputPublisher
-// import io.github.cdsap.talaiot.publisher.JsonPublisher
-// import io.github.cdsap.talaiot.publisher.OutputPublisher
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
-// import io.github.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl
-// import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
@@ -33,8 +29,7 @@ class TalaiotConfigurationProvider(
             influxDbPublisher?.apply {
                 publishers.add(
                     InfluxDbPublisher(
-                        this,
-                        logger
+                        this, logger
                     )
                 )
             }
@@ -42,8 +37,7 @@ class TalaiotConfigurationProvider(
             pushGatewayPublisher?.apply {
                 publishers.add(
                     PushGatewayPublisher(
-                        this,
-                        logger
+                        this, logger
                     )
                 )
             }
@@ -54,8 +48,7 @@ class TalaiotConfigurationProvider(
             elasticSearchPublisher?.apply {
                 publishers.add(
                     ElasticSearchPublisher(
-                        this,
-                        logger
+                        this, logger
                     )
                 )
             }
@@ -63,8 +56,7 @@ class TalaiotConfigurationProvider(
             hybridPublisher?.apply {
                 publishers.add(
                     HybridPublisher(
-                        this,
-                        logger
+                        this, logger
                     )
                 )
             }
@@ -72,12 +64,10 @@ class TalaiotConfigurationProvider(
             rethinkDbPublisher?.apply {
                 publishers.add(
                     RethinkDbPublisher(
-                        this,
-                        logger
+                        this, logger
                     )
                 )
             }
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

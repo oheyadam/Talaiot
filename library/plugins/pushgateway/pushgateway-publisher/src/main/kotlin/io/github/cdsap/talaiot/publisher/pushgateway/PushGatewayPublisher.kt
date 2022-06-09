@@ -22,7 +22,6 @@ class PushGatewayPublisher(
     private val TAG = "PushGatewayPublisher"
 
     override fun publish(report: ExecutionReport) {
-        println("xxxxxxxxxxxxxxxxxxxxxxx")
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
             pushGatewayPublisherConfiguration.taskJobName.isEmpty()
         ) {

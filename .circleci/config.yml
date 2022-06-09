@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew :library:plugins:talaiot-standard:test
+          command: ./gradlew :library:plugins:talaiot-standard:test --info
       - run:
           name: build sample
           command: |

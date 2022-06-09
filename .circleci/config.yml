@@ -32,11 +32,11 @@ jobs:
       - codecov/upload:
           file: build/reports/jacoco/test/*.xml
       - store_test_results:
-          path: library/plugins/talaiot-standard/build/test-results/test/*
+          path: library/plugins/talaiot-standard/build/test-results/test/*.xml
       - store_artifacts:
           path: |
             build/reports/tests/
-            library/plugins/talaiot-standard/build/reports/tests/test/index.html
+            library/plugins/talaiot-standard/build/reports/tests/test/*
 
   deploy-snapshot:
     working_directory: ~/repo

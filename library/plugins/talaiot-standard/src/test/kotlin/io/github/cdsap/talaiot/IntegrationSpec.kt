@@ -73,11 +73,11 @@ class DefaultConfigurationSpec : StringSpec({
             tasks.size shouldBe 5
             tasks.count { it.rootNode } shouldBe 1
 
-            tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
+               tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
             println("19")
 
             report.requestedTasks shouldBe "assemble"
-            report.rootProject shouldNotBe null
+              report.rootProject shouldNotBe null
             report.success shouldBe true
             println("20")
 

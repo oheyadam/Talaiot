@@ -81,11 +81,8 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchConfigurationCacheMetric]
  *
  * [environmentMetrics] includes:
- *  [OsManufacturerMetric]
  *  [HostnameMetric]
- *  [PublicIpMetric]
  *  [DefaultCharsetMetric]
- *  [CacheHitMetric]
  *
  *  If you want to define custom metrics:
  *

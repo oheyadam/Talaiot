@@ -135,14 +135,10 @@ class LocaleMetric : GradleMetric<String>(
 )
 
 private fun Gradle.findRequestedTasks(): List<String> {
-    try {
-        val taskNames = startParameter.taskNames
-        val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
-        val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
-        return taskNames.map {
-            taskAbbreviationHandler.findRequestedTask(it)
-        }
-    } catch (e: Exception) {
-        return emptyList<String>()
+    val taskNames = startParameter.taskNames
+    val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+    val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
+    return taskNames.map {
+        taskAbbreviationHandler.findRequestedTask(it)
     }
 }

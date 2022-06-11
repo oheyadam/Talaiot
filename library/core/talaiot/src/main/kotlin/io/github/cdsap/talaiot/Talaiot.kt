@@ -35,13 +35,8 @@ class Talaiot<T : TalaiotExtension>(
     private val publisherConfigurationProvider: PublisherConfigurationProvider
 ) {
     /**
-     * Initialization of the plugin. The plugin needs to receive callbacks
-     * from the [org.gradle.api.execution.TaskExecutionListener]
-     * and [org.gradle.BuildListener] to start tracking the information of the tasks.
+     * Initialization of the plugin.
      *
-     * Additionally we need the a list of metrics and providers that will be used during the execution.
-     *
-     * @param extension Talaiot extension that contains the configuration
      * @param project Gradle project used to to retrieve buildProperties and build information.
      */
 
@@ -60,12 +55,13 @@ class Talaiot<T : TalaiotExtension>(
             val talaiotPublisher =
                 createTalaiotPublisher(extension, executionReport, publisherConfigurationProvider.get())
 
-            val serviceProvider: Provider<TalaiotBuildService> = target.gradle.sharedServices.registerIfAbsent(
-                "talaiotService", TalaiotBuildService::class.java
-            ) { spec ->
-                spec.parameters.publisher.set(talaiotPublisher)
-                spec.parameters.startParameters.set(parameters)
-            }
+            val serviceProvider: Provider<TalaiotBuildService> =
+                target.gradle.sharedServices.registerIfAbsent(
+                    "talaiotService", TalaiotBuildService::class.java
+                ) { spec ->
+                    spec.parameters.publisher.set(talaiotPublisher)
+                    spec.parameters.startParameters.set(parameters)
+                }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }
     }

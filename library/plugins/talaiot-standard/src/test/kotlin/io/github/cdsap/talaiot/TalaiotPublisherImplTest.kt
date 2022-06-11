@@ -52,11 +52,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(
-                    argThat {
-                        this.tasks!!.size == 1
-                    }
-                )
+                verify(publishers.get()[0]).publish(argThat { this.tasks!!.size == 1 })
             }
         }
         `when`("more than one publisher is included ") {
@@ -87,11 +83,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(
-                    argThat {
-                        this.tasks!!.size == 2
-                    }
-                )
+                verify(publishers.get()[0]).publish(argThat {
+                    this.tasks!!.size == 2
+                })
             }
         }
         `when`("one filter has been configured") {
@@ -129,11 +123,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(
-                    argThat {
-                        this.tasks!!.size == 1
-                    }
-                )
+                verify(publishers.get()[0]).publish(argThat {
+                    this.tasks!!.size == 1
+                })
             }
         }
 
@@ -173,11 +165,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(
-                    argThat {
-                        this.tasks!!.size == 1
-                    }
-                )
+                verify(publishers.get()[0]).publish(argThat {
+                    this.tasks!!.size == 1
+                })
             }
         }
 
@@ -451,11 +441,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 )
 
                 val expectedTasks = listOf(
-                    expectedTaskA,
-                    expectedTaskA.copy(
+                    expectedTaskA, expectedTaskA.copy(
                         taskName = "b", taskPath = ":app:b"
-                    ),
-                    expectedTaskA.copy(
+                    ), expectedTaskA.copy(
                         taskName = "c", taskPath = ":app:c"
                     )
                 )
@@ -491,8 +479,7 @@ private fun setUpMockExtension(project: Project, extension: TalaiotPluginExtensi
 private fun metricsConfiguration() = MetricsConfiguration()
 
 private fun getTasks() = mutableListOf(
-    getSingleTask(),
-    TaskLength(
+    getSingleTask(), TaskLength(
         ms = 1L,
         taskName = "taskA",
         taskPath = ":app:clean",

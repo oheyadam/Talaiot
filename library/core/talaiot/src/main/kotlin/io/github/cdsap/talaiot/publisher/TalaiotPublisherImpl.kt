@@ -6,13 +6,13 @@ import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 
 /**
- * Implementation of TalaiotPublisher.
- * It will retrieve all the metrics trough the MetricsProvider and the Publishers defined in the configuration
- * trough the PublisherProvider.
- * At the publishing phase it will aggregate the data of in a TaskMeasurementAggregated to publish the result
- * on each publisher retrieved.
- * Before the publishing phase we will apply the TaskFilterProcessor. Filtering doesn't apply to
- * the TaskDependencyGraphPublisher
+ * Implementation of [TalaiotPublisher].
+ * Once the [TalaiotBuildService] is closed we need to publish the build information based on the configuration.
+ * This configuration is composed by:
+ *   - Filtering task
+ *   - Build Publishing Filter
+ * Finally, it completes the [ExecutionReport] information with the general build info and
+ * publishes the build information with the publishers provided
  */
 class TalaiotPublisherImpl(
     private val executionReport: ExecutionReport,

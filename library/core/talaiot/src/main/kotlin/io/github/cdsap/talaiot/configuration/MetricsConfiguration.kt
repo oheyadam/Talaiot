@@ -7,7 +7,6 @@ import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
-import io.github.cdsap.talaiot.metrics.GradleScanLinkMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigurationCacheMetric
@@ -121,13 +120,6 @@ class MetricsConfiguration {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
-            add(GradleScanLinkMetric())
-        }
-    }
-
-    private fun addGradleScanMetrics() {
-        with(metrics) {
-            add(GradleScanLinkMetric())
         }
     }
 

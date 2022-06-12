@@ -39,7 +39,7 @@ jobs:
   deploy-snapshot:
     working_directory: ~/repo
     machine:
-      image: circleci/classic:latest
+      image: ubuntu-2004:edge
     steps:
       - checkout
       - run:

@@ -56,4 +56,6 @@ workflows:
             - build
           filters:
             branches:
-              only: master, talaiot_2_0_test
+              only:
+                - master
+                - talaiot_2_0_test

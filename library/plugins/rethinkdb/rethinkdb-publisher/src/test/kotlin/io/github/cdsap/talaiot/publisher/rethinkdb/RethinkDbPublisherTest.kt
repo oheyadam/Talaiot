@@ -9,11 +9,11 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.kotlintest.Description
-import io.kotlintest.Spec
-import io.kotlintest.inspectors.forAtLeastOne
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.Description
+import io.kotest.Spec
+import io.kotest.inspectors.forAtLeastOne
+import io.kotest.shouldThrow
+import io.kotest.core.spec.style.BehaviorSpec
 import junit.framework.Assert.assertTrue
 import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL

@@ -55,7 +55,7 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.4.2")
+            add("testImplementation", "io.kotest:kotest-runner-junit5-jvm:5.6.2")
         }
     }
 }

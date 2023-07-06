@@ -40,12 +40,6 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.setUpJunitPlatform()
         target.setUpKtlint()
 
-//target.java {
-//    toolchain {
-//        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
-//    }
-//}
-
         target.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).all {
             kotlinOptions {
                 jvmTarget = "11"
@@ -61,7 +55,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.4.2")
+            add("testImplementation", "io.kotest:kotest-runner-junit5-jvm:5.6.2")
         }
     }
 }

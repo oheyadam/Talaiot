@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.assertions
 
-import io.kotlintest.Matcher
-import io.kotlintest.Result
-import io.kotlintest.shouldBe
+import io.kotest.Matcher
+import io.kotest.Result
+import io.kotest.shouldBe
 import kotlin.reflect.KClass
 
 private fun <T : Any> containExactlyTypesOfInAnyOrder(ts: Collection<KClass<*>>): Matcher<Collection<T>> =

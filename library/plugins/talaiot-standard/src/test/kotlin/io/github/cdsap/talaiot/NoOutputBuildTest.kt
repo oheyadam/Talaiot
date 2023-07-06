@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 
@@ -20,7 +20,7 @@ class NoOutputsBuildTest : BehaviorSpec({
 
                   talaiot{
                     publishers {
-                      outputPublisher 
+                      outputPublisher
                   }
                }
             """

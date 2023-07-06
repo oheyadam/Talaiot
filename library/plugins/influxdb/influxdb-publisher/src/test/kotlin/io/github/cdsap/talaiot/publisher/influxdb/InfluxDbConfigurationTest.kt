@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.publisher.influxdb
 
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class InfluxDbConfigurationTest : BehaviorSpec({
     given("InfluxDb configuration") {

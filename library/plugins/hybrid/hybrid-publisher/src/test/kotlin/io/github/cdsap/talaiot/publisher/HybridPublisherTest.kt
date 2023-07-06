@@ -13,9 +13,9 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import io.kotlintest.Description
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.Description
+import io.kotest.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
 import org.testcontainers.pushgateway.KPushGatewayContainer

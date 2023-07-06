@@ -6,8 +6,8 @@ import io.github.cdsap.talaiot.entities.CustomProperties
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.shouldBe
+import io.kotest.core.spec.style.BehaviorSpec
 
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {

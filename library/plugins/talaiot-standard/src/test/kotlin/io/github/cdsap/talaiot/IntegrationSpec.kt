@@ -3,10 +3,10 @@ package io.github.cdsap.talaiot
 import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.forAll
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.StringSpec
+import io.kotest.forAll
+import io.kotest.shouldBe
+import io.kotest.shouldNotBe
+import io.kotest.specs.StringSpec
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 

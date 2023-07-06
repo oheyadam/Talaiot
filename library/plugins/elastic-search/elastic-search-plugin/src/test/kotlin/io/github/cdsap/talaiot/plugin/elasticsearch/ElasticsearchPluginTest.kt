@@ -3,8 +3,8 @@ package io.github.cdsap.talaiot.plugin.elasticsearch
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.RestClient

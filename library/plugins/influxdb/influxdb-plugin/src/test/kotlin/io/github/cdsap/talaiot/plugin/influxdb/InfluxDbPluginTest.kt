@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.plugin.influxdb
 
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.Spec
+import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer

@@ -8,7 +8,7 @@ import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.TaskMetrics
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
 
 class PushGatewayLabelProviderTest : BehaviorSpec() {
     init {

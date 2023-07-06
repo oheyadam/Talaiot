@@ -30,7 +30,8 @@ class TalaiotConfigurationProvider(
             influxDbPublisher?.apply {
                 publishers.add(
                     InfluxDbPublisher(
-                        this, logger
+                        this,
+                        logger
                     )
                 )
             }
@@ -38,7 +39,8 @@ class TalaiotConfigurationProvider(
             pushGatewayPublisher?.apply {
                 publishers.add(
                     PushGatewayPublisher(
-                        this, logger
+                        this,
+                        logger
                     )
                 )
             }
@@ -49,7 +51,8 @@ class TalaiotConfigurationProvider(
             elasticSearchPublisher?.apply {
                 publishers.add(
                     ElasticSearchPublisher(
-                        this, logger
+                        this,
+                        logger
                     )
                 )
             }
@@ -57,7 +60,8 @@ class TalaiotConfigurationProvider(
             hybridPublisher?.apply {
                 publishers.add(
                     HybridPublisher(
-                        this, logger
+                        this,
+                        logger
                     )
                 )
             }
@@ -65,7 +69,8 @@ class TalaiotConfigurationProvider(
             rethinkDbPublisher?.apply {
                 publishers.add(
                     RethinkDbPublisher(
-                        this, logger
+                        this,
+                        logger
                     )
                 )
             }

@@ -1,7 +1,6 @@
 package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-
 import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome

@@ -9,8 +9,8 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.kotest.Spec
-import io.kotest.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.shouldThrow
 import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.ResponseException
@@ -41,7 +41,8 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         url = "http://" + container.httpHostAddress
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger
+                    elasticSearchPublisherConfiguration,
+                    logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -104,7 +105,8 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishTaskMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger
+                    elasticSearchPublisherConfiguration,
+                    logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -156,7 +158,8 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishBuildMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger
+                    elasticSearchPublisherConfiguration,
+                    logger
                 )
 
                 elasticSearchPublisher.publish(executionReport())
@@ -209,7 +212,8 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
         return ExecutionReport(
             requestedTasks = "assemble",
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -219,7 +223,11 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             ),
             tasks = listOf(
                 TaskLength(
-                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
+                    1,
+                    "assemble",
+                    ":assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )

@@ -22,6 +22,7 @@ class OutputPublisher(
     private val TAG = "OutputPublisher"
 
     override fun publish(report: ExecutionReport) {
+        println("paso2")
         logTracker.log(TAG, "================")
         logTracker.log(TAG, "OutputPublisher")
         logTracker.log(TAG, "publishBuildMetrics: ${outputPublisherConfiguration.publishBuildMetrics}")

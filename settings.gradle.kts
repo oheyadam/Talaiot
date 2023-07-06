@@ -1,9 +1,14 @@
 pluginManagement {
     repositories {
         mavenCentral()
-        gradlePluginPortal()
-        maven(url = "https://jitpack.io")
-
+            //  maven(url = "https://jitpack.io")
+       gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
 include(":library:core:talaiot")

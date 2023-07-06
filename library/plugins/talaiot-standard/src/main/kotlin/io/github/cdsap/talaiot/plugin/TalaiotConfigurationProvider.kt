@@ -20,7 +20,9 @@ class TalaiotConfigurationProvider(
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotPluginExtension
         val logger = LogTrackerImpl(talaiotExtension.logger)
 
+        println("3333")
         talaiotExtension.publishers?.apply {
+            println("llego")
             outputPublisher?.apply {
                 publishers.add(OutputPublisher(this, logger))
             }

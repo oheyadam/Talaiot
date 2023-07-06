@@ -1,7 +1,9 @@
 package io.github.cdsap.talaiot.buildplugins
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.*
 import java.net.URI
 
@@ -30,10 +32,17 @@ class TalaiotPlugin : Plugin<Project> {
             mavenCentral()
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
-
+        target.configure<JavaPluginExtension> {
+            this.targetCompatibility = JavaVersion.VERSION_11
+            this.sourceCompatibility = JavaVersion.VERSION_11
+        }
         target.setUpJacoco()
         target.setUpJunitPlatform()
-
+        target.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
 
         target.afterEvaluate {
             val extension = target.extensions.getByType<TalaiotPluginConfiguration>()
@@ -46,7 +55,7 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
+            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.4.2")
         }
     }
 }

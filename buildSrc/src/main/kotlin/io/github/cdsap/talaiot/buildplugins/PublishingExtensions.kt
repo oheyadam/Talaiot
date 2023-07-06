@@ -20,6 +20,7 @@ fun Project.setUpPublishing(
     val artifact = getArtifact(extension.artifact, this)
 
     configure<JavaPluginExtension> {
+
         withJavadocJar()
         withSourcesJar()
     }

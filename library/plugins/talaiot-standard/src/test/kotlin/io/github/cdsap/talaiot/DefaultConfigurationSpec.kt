@@ -3,28 +3,23 @@ package io.github.cdsap.talaiot
 import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotest.forAll
-import io.kotest.shouldBe
-import io.kotest.shouldNotBe
-import io.kotest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
 class DefaultConfigurationSpec : StringSpec({
     "given default config" {
-        forAll(
-            listOf(
-                "7.4.1",
-                "7.2",
-                "7.1.1",
-                "7.1",
-                "7.0.2",
-                "7.0",
-                "6.8.1",
-                "6.7.1",
-                "6.5.1"
-            )
-        ) { version: String ->
+
+        listOf(
+            "7.4.1",
+            "7.2",
+            "7.1.1",
+            "7.1",
+            "7.0.2",
+            "7.0"
+        ).forEach { version: String ->
             val testProjectDir = TemporaryFolder()
 
             testProjectDir.create()

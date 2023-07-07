@@ -4,7 +4,7 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.report.ExecutionReportProvider
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.shouldBe
+import io.kotest.matchers.shouldBe
 
 class DefaultTaskMetricsProviderTest : BehaviorSpec({
     given("DefaultTaskMetricsProvider instance") {

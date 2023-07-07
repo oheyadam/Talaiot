@@ -1,5 +1,12 @@
 package io.github.cdsap.talaiot
 
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.ExecutionReport
@@ -14,6 +21,7 @@ import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
 

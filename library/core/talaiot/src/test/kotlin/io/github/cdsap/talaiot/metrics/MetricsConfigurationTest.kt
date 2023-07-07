@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.shouldBe
+import io.kotest.matchers.shouldBe
 
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {

@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.util
 
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.shouldBe
+import io.kotest.matchers.shouldBe
 
 class TaskAbbreviationMatcherTest : BehaviorSpec({
     given("a TaskAbbreviationMatcher") {

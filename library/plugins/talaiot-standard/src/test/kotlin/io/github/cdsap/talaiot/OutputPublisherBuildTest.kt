@@ -28,7 +28,7 @@ class OutputPublisherBuildTest : BehaviorSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble")
+                .withArguments("assemble", "--no-configuration-cache")
                 .withPluginClasspath()
                 .build()
             println(result.output)

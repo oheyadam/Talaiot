@@ -18,14 +18,16 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
 
             `when`("build executes assemble with JsonPublisher and configuration cache") {
 
-                GradleRunner.create()
+                val a = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble", "--no-configuration-cache")
                     .withPluginClasspath()
                     .build()
 
                 then("Configuration Cache switch is registered") {
+                    println(a.output)
                     val file = File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json")
+                    println(file.readText())
                     assert(file.readText().contains("\"configurationCache\": \"false\""))
                 }
             }

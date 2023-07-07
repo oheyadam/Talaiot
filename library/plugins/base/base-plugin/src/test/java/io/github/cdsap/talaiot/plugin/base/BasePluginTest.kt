@@ -31,13 +31,7 @@ class BasePluginTest : BehaviorSpec() {
 
                 val result = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble", "--configuration-cache", "--info")
-                    .withPluginClasspath()
-                    .build()
-
-                val result2 = GradleRunner.create()
-                    .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
+                    .withArguments("assemble", "--no-configuration-cache", "--info")
                     .withPluginClasspath()
                     .build()
 

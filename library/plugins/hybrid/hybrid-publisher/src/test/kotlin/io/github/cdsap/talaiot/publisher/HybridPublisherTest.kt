@@ -14,7 +14,7 @@ import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import io.kotest.Description
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer

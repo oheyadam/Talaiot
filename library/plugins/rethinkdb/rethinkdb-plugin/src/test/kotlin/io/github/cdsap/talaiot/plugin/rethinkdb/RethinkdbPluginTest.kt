@@ -3,7 +3,7 @@ package io.github.cdsap.talaiot.plugin.rethinkdb
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import junit.framework.Assert
 import org.gradle.testkit.runner.GradleRunner

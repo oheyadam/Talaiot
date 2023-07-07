@@ -9,7 +9,7 @@ import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.testcontainers.pushgateway.KPushGatewayContainer
 import java.net.URL

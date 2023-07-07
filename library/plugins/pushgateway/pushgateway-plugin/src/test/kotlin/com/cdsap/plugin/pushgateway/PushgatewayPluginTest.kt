@@ -3,7 +3,7 @@ package com.cdsap.plugin.pushgateway
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.testcontainers.pushgateway.KPushGatewayContainer

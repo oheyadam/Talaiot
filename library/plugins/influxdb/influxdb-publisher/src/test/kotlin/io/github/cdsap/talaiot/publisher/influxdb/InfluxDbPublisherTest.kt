@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.metrics.BuildMetrics
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer

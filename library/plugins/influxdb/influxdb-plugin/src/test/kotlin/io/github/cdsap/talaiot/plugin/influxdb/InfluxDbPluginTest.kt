@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.plugin.influxdb
 
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotest.Spec
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.influxdb.dto.Query

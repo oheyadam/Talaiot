@@ -9,6 +9,8 @@ import java.io.FileWriter
 
 class JsonPublisher(private val path: File) : Publisher, java.io.Serializable {
     override fun publish(report: ExecutionReport) {
+        println("llego al JsonPublisher")
+        println(report.toString())
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
         val file = File(path, "reports/talaiot/json/data.json")
@@ -17,7 +19,7 @@ class JsonPublisher(private val path: File) : Publisher, java.io.Serializable {
                 delete()
                 createNewFile()
             }
-
+       println(file.absoluteFile)
         BufferedWriter(FileWriter(file)).use {
             gson.toJson(report, it)
             it.flush()

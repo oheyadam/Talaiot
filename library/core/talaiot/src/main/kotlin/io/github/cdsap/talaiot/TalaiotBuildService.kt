@@ -75,6 +75,7 @@ abstract class TalaiotBuildService :
         val taskPath = event.descriptor?.name.toString()
         val task = taskPath.split(":").last()
         val state = event.displayName.split(" ")[2]
+        println(state)
 
         taskLengthList.add(
             taskLength(

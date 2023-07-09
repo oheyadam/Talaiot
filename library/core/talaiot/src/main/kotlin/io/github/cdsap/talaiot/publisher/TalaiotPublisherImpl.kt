@@ -36,9 +36,11 @@ class TalaiotPublisherImpl(
         executionReport.success = success
         executionReport.durationMs = duration.toString()
         executionReport.configurationDurationMs = configuraionMs.toString()
+        println("llego publish")
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             publisherProvider.forEach {
+                println(it.toString())
                 it.publish(executionReport)
             }
         }

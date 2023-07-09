@@ -13,7 +13,7 @@ import org.testcontainers.elasticsearch.KElasticSearchContainer
 
 class ElasticsearchPluginTest : BehaviorSpec() {
     private val container = KElasticSearchContainer()
-    
+
     init {
         given("ElasticSearch Talaiot Plugin") {
             container.start()

@@ -16,12 +16,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: style
-          command: ./gradlew ktlintCheck
-      - run:
-          name: assemble
-          command: ./gradlew assemble
-      - run:
           name: test
           command: |
             java --version

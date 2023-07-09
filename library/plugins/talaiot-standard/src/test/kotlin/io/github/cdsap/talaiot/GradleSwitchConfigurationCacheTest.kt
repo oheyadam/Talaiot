@@ -23,6 +23,7 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
                     .withArguments("assemble", "--no-configuration-cache")
                     .withPluginClasspath()
                     .build()
+                Thread.sleep(2000)
 
                 then("Configuration Cache switch is registered") {
                     println(a.output)

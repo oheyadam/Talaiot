@@ -19,7 +19,7 @@ class JsonPublisher(private val path: File) : Publisher, java.io.Serializable {
                 delete()
                 createNewFile()
             }
-       println(file.absoluteFile)
+        println(file.absoluteFile)
         BufferedWriter(FileWriter(file)).use {
             gson.toJson(report, it)
             it.flush()

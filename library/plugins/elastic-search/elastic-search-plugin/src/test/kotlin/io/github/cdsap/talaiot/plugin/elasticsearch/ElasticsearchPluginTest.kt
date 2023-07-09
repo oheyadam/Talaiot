@@ -3,7 +3,6 @@ package io.github.cdsap.talaiot.plugin.elasticsearch
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
 import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
@@ -14,19 +13,10 @@ import org.testcontainers.elasticsearch.KElasticSearchContainer
 
 class ElasticsearchPluginTest : BehaviorSpec() {
     private val container = KElasticSearchContainer()
-
-    override fun beforeSpec(spec: Spec) {
-        super.beforeSpec(spec)
-        container.start()
-    }
-
-    override fun afterSpec(spec: Spec) {
-        super.afterSpec(spec)
-        container.stop()
-    }
-
+    
     init {
         given("ElasticSearch Talaiot Plugin") {
+            container.start()
             val testProjectDir = TemporaryFolder()
             `when`("Project includes the plugin") {
                 testProjectDir.create()
@@ -80,6 +70,7 @@ class ElasticsearchPluginTest : BehaviorSpec() {
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
                 }
                 testProjectDir.delete()
+                container.stop()
             }
         }
     }

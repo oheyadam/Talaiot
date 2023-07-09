@@ -52,6 +52,7 @@ abstract class TalaiotBuildService :
         val end = System.currentTimeMillis()
 
         executor.execute {
+            println("llego al final")
             parameters.publisher.get().publish(
                 taskLengthList = taskLengthList,
                 start = start,
